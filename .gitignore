@@ -1,0 +1,21 @@
+# Runtime env and secrets (two-env deploy convention)
+.env
+.env.local
+.env.prod
+.env.test
+secrets/
+secrets.prod/
+secrets.test/
+# Runtime data (unused at runtime; public fixtures live in frontend/public/bundles)
+data/
+
+# Python authoring
+scripts/authoring/.venv/
+__pycache__/
+.pytest_cache/
+
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/test-results/
+frontend/playwright-report/
