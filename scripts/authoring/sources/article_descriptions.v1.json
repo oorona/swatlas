@@ -1,0 +1,104 @@
+{
+  "source": {
+    "article_slug": "mapping-star-wars-universe",
+    "article_title": "Mapping the Star Wars Universe",
+    "article_path": "latent/data/articles/mapping-star-wars-universe/article.md",
+    "article_sha256": "9c3e98a713ea5d83f8da40a34f948428411918fc61750304748d6f61d40dd0a4",
+    "section": "Building character descriptions",
+    "block": "characters = {...}",
+    "line_start": 22,
+    "line_end": 53
+  },
+  "characters": [
+    {
+      "id": "luke-skywalker",
+      "name": "Luke Skywalker",
+      "description": "Jedi Knight, son of Anakin Skywalker, strong in the Force, hero of the Rebellion, trained by Obi-Wan and Yoda, redeemed his father",
+      "article_order": 0
+    },
+    {
+      "id": "darth-vader",
+      "name": "Darth Vader",
+      "description": "Sith Lord, formerly Anakin Skywalker, fallen Jedi, serves the Emperor, father of Luke and Leia, mechanical suit, immense Force power",
+      "article_order": 1
+    },
+    {
+      "id": "han-solo",
+      "name": "Han Solo",
+      "description": "Smuggler, captain of the Millennium Falcon, no Force sensitivity, pragmatic, allied with the Rebellion, close friend of Chewbacca",
+      "article_order": 2
+    },
+    {
+      "id": "leia-organa",
+      "name": "Leia Organa",
+      "description": "Princess of Alderaan, leader of the Rebellion, Force sensitive, twin sister of Luke, diplomat and military strategist",
+      "article_order": 3
+    },
+    {
+      "id": "emperor-palpatine",
+      "name": "Emperor Palpatine",
+      "description": "Sith Master, ruler of the Galactic Empire, manipulator, immense dark side power, orchestrated the Clone Wars",
+      "article_order": 4
+    },
+    {
+      "id": "yoda",
+      "name": "Yoda",
+      "description": "Grand Master of the Jedi Order, 900 years old, immense Force wisdom, trained generations of Jedi, exiled on Dagobah",
+      "article_order": 5
+    },
+    {
+      "id": "obi-wan-kenobi",
+      "name": "Obi-Wan Kenobi",
+      "description": "Jedi Master, trained Anakin Skywalker, guardian of Luke, wise and disciplined, killed by Darth Vader on the Death Star",
+      "article_order": 6
+    },
+    {
+      "id": "boba-fett",
+      "name": "Boba Fett",
+      "description": "Bounty hunter, clone of Jango Fett, no Force sensitivity, works for the highest bidder, Mandalorian armor",
+      "article_order": 7
+    },
+    {
+      "id": "ahsoka-tano",
+      "name": "Ahsoka Tano",
+      "description": "Former Jedi Padawan of Anakin Skywalker, left the Jedi Order, Force sensitive, independent warrior, fought in the Clone Wars",
+      "article_order": 8
+    },
+    {
+      "id": "din-djarin",
+      "name": "Din Djarin",
+      "description": "Mandalorian bounty hunter, no Force sensitivity, foundling, protector of Grogu, follows the Mandalorian creed",
+      "article_order": 9
+    },
+    {
+      "id": "kylo-ren",
+      "name": "Kylo Ren",
+      "description": "Dark side Force user, son of Han Solo and Leia Organa, formerly Ben Solo, trained by Luke then Snoke, conflicted",
+      "article_order": 10
+    },
+    {
+      "id": "rey",
+      "name": "Rey",
+      "description": "Jedi, granddaughter of Palpatine, strong in the Force, scavenger from Jakku, trained by Luke and Leia, chose the Skywalker name",
+      "article_order": 11
+    },
+    {
+      "id": "mace-windu",
+      "name": "Mace Windu",
+      "description": "Jedi Master, member of the Jedi Council, invented Vaapad lightsaber form, strong in the Force, confronted Palpatine",
+      "article_order": 12
+    },
+    {
+      "id": "count-dooku",
+      "name": "Count Dooku",
+      "description": "Sith apprentice, formerly a Jedi Master, trained by Yoda, leader of the Separatists, elegant duelist",
+      "article_order": 13
+    },
+    {
+      "id": "chewbacca",
+      "name": "Chewbacca",
+      "description": "Wookiee warrior, co-pilot of the Millennium Falcon, loyal companion of Han Solo, fought in the Clone Wars and Galactic Civil War",
+      "article_order": 14
+    }
+  ]
+}

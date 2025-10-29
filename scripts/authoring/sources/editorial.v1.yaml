@@ -1,0 +1,173 @@
+# swatlas editorial layer, version 1.
+#
+# Everything in this file is an editorial classification drafted from the
+# article's own description text (sources/article_descriptions.v1.json). It is
+# NOT authoritative canon and it is NOT an embedding axis. Every record is
+# review_status: draft until the site owner reviews it.
+#
+# Controlled vocabularies are listed first; the build rejects any value outside
+# them. "unknown" means the description is silent; "disputed" means the article
+# and the description disagree or the classification is genuinely contested.
+
+version: 1
+review_status: draft
+drafted_by: "Claude (implementation agent), 2026-09-24"
+
+vocabularies:
+  allegiances: [jedi-order, sith, rebel-alliance, galactic-empire, separatists, mandalorian, independent, unknown, disputed]
+  roles: [jedi, sith, mentor, leader, diplomat, smuggler, pilot, bounty-hunter, warrior, scavenger]
+  eras: [prequel, original, new-republic, sequel, unknown]
+  force_status: [sensitive, not_sensitive, unknown, disputed]
+  relationship_types: [parent_of, sibling_of, grandparent_of, trained, guardian_of, apprentice_of, serves, friend_of, companion_of, killed, confronted, redeemed]
+
+# description_variant removes named relationship phrases (another person named
+# or referred to by kinship) and keeps role, faction, trait, and place phrases.
+# Identity aliases ("formerly Anakin Skywalker", "formerly Ben Solo") are kept
+# because they name the character, not a relationship.
+characters:
+  luke-skywalker:
+    description_variant: "Jedi Knight, strong in the Force, hero of the Rebellion"
+    variant_note: "Removed 'son of Anakin Skywalker', 'trained by Obi-Wan and Yoda', 'redeemed his father'."
+    allegiances: [jedi-order, rebel-alliance]
+    roles: [jedi, mentor]
+    eras: [original, sequel]
+    force_status: sensitive
+    classification_note: "Jedi and Rebellion come from the description. Mentor and sequel era come from other descriptions that say he trained Kylo Ren and Rey."
+  darth-vader:
+    description_variant: "Sith Lord, formerly Anakin Skywalker, fallen Jedi, mechanical suit, immense Force power"
+    variant_note: "Removed 'serves the Emperor', 'father of Luke and Leia'. Kept the identity alias 'formerly Anakin Skywalker'."
+    allegiances: [sith, galactic-empire]
+    roles: [sith]
+    eras: [prequel, original]
+    force_status: sensitive
+    classification_note: "Empire comes from 'serves the Emperor'. Prequel era comes from 'formerly Anakin Skywalker, fallen Jedi'; his earlier Jedi Order membership is not listed as a current allegiance."
+  han-solo:
+    description_variant: "Smuggler, captain of the Millennium Falcon, no Force sensitivity, pragmatic, allied with the Rebellion"
+    variant_note: "Removed 'close friend of Chewbacca'."
+    allegiances: [rebel-alliance]
+    roles: [smuggler, pilot]
+    eras: [original, sequel]
+    force_status: not_sensitive
+    classification_note: "'No Force sensitivity' is stated. Sequel era comes from Kylo Ren's description naming him as a parent. The article's plotting code labels him 'Neutral'."
+  leia-organa:
+    description_variant: "Princess of Alderaan, leader of the Rebellion, Force sensitive, diplomat and military strategist"
+    variant_note: "Removed 'twin sister of Luke'."
+    allegiances: [rebel-alliance]
+    roles: [leader, diplomat, mentor]
+    eras: [original, sequel]
+    force_status: sensitive
+    classification_note: "The article's plotting code labels her 'Jedi', but the description never calls her a Jedi, so the Jedi Order is not assigned. Mentor comes from Rey's 'trained by Luke and Leia'."
+  emperor-palpatine:
+    description_variant: "Sith Master, ruler of the Galactic Empire, manipulator, immense dark side power, orchestrated the Clone Wars"
+    variant_note: "Unchanged: the description names no other person."
+    allegiances: [sith, galactic-empire]
+    roles: [sith, leader]
+    eras: [prequel, original, sequel]
+    force_status: sensitive
+    classification_note: "Force sensitivity is inferred from 'immense dark side power'. Sequel era comes from Rey's description ('granddaughter of Palpatine')."
+  yoda:
+    description_variant: "Grand Master of the Jedi Order, 900 years old, immense Force wisdom, trained generations of Jedi, exiled on Dagobah"
+    variant_note: "Unchanged: 'trained generations of Jedi' names no individual."
+    allegiances: [jedi-order]
+    roles: [jedi, mentor, leader]
+    eras: [prequel, original]
+    force_status: sensitive
+    classification_note: "Eras are editorial: Grand Master (prequel) and exile on Dagobah (original)."
+  obi-wan-kenobi:
+    description_variant: "Jedi Master, wise and disciplined, killed on the Death Star"
+    variant_note: "Removed 'trained Anakin Skywalker', 'guardian of Luke'; reduced 'killed by Darth Vader on the Death Star' to 'killed on the Death Star'."
+    allegiances: [jedi-order]
+    roles: [jedi, mentor]
+    eras: [prequel, original]
+    force_status: sensitive
+    classification_note: "The description does not state Force sensitivity; it is inferred from the 'Jedi Master' title."
+  boba-fett:
+    description_variant: "Bounty hunter, no Force sensitivity, works for the highest bidder, Mandalorian armor"
+    variant_note: "Removed 'clone of Jango Fett'."
+    allegiances: [independent]
+    roles: [bounty-hunter]
+    eras: [original]
+    force_status: not_sensitive
+    classification_note: "'Mandalorian armor' describes equipment, not creed membership, so Mandalorian is not assigned. The article's plotting code labels him 'Mandalorian'. Era is editorial; the description gives none."
+  ahsoka-tano:
+    description_variant: "Former Jedi Padawan, left the Jedi Order, Force sensitive, independent warrior, fought in the Clone Wars"
+    variant_note: "Removed 'of Anakin Skywalker' from 'Former Jedi Padawan of Anakin Skywalker'."
+    allegiances: [disputed]
+    roles: [warrior]
+    eras: [prequel]
+    force_status: sensitive
+    classification_note: "Disputed: the description says she left the Jedi Order and calls her an 'independent warrior', while the article's plotting code labels her 'Jedi'. Neither label is chosen."
+  din-djarin:
+    description_variant: "Mandalorian bounty hunter, no Force sensitivity, foundling, follows the Mandalorian creed"
+    variant_note: "Removed 'protector of Grogu'."
+    allegiances: [mandalorian]
+    roles: [bounty-hunter, warrior]
+    eras: [new-republic]
+    force_status: not_sensitive
+    classification_note: "Mandalorian comes from 'follows the Mandalorian creed'. Era is editorial."
+  kylo-ren:
+    description_variant: "Dark side Force user, formerly Ben Solo, conflicted"
+    variant_note: "Removed 'son of Han Solo and Leia Organa', 'trained by Luke then Snoke'. Kept the identity alias 'formerly Ben Solo'."
+    allegiances: [unknown]
+    roles: [warrior]
+    eras: [sequel]
+    force_status: sensitive
+    classification_note: "The description names no organization; 'dark side' is an alignment, not a faction. The article's plotting code labels him 'Sith', which the description does not say."
+  rey:
+    description_variant: "Jedi, strong in the Force, scavenger from Jakku"
+    variant_note: "Removed 'granddaughter of Palpatine', 'trained by Luke and Leia', 'chose the Skywalker name'."
+    allegiances: [jedi-order]
+    roles: [jedi, scavenger]
+    eras: [sequel]
+    force_status: sensitive
+    classification_note: "Jedi comes from the description. Era is editorial."
+  mace-windu:
+    description_variant: "Jedi Master, member of the Jedi Council, invented Vaapad lightsaber form, strong in the Force"
+    variant_note: "Removed 'confronted Palpatine'."
+    allegiances: [jedi-order]
+    roles: [jedi, leader]
+    eras: [prequel]
+    force_status: sensitive
+    classification_note: "Leader comes from Jedi Council membership. Era is editorial."
+  count-dooku:
+    description_variant: "Sith apprentice, formerly a Jedi Master, leader of the Separatists, elegant duelist"
+    variant_note: "Removed 'trained by Yoda'."
+    allegiances: [sith, separatists]
+    roles: [sith, leader]
+    eras: [prequel]
+    force_status: sensitive
+    classification_note: "Force sensitivity is inferred from the Sith and Jedi Master titles. Era is editorial."
+  chewbacca:
+    description_variant: "Wookiee warrior, co-pilot of the Millennium Falcon, fought in the Clone Wars and Galactic Civil War"
+    variant_note: "Removed 'loyal companion of Han Solo'."
+    allegiances: [rebel-alliance]
+    roles: [warrior, pilot]
+    eras: [prequel, original]
+    force_status: unknown
+    classification_note: "The description is silent on the Force, so the status is unknown; the article's plotting code groups him with non-Force users. Rebel Alliance is inferred from the Galactic Civil War and his partnership with Han Solo and is not stated."
+
+# Curated story relationships among the 15 characters, all directed and quoted
+# from a description. People outside the catalog (Snoke, Grogu, Jango Fett) are
+# not represented. These edges never carry a similarity score.
+relationships:
+  - {from: darth-vader, to: luke-skywalker, type: parent_of, quote: "father of Luke and Leia", in: darth-vader}
+  - {from: darth-vader, to: leia-organa, type: parent_of, quote: "father of Luke and Leia", in: darth-vader}
+  - {from: leia-organa, to: luke-skywalker, type: sibling_of, quote: "twin sister of Luke", in: leia-organa}
+  - {from: obi-wan-kenobi, to: luke-skywalker, type: trained, quote: "trained by Obi-Wan and Yoda", in: luke-skywalker}
+  - {from: yoda, to: luke-skywalker, type: trained, quote: "trained by Obi-Wan and Yoda", in: luke-skywalker}
+  - {from: luke-skywalker, to: darth-vader, type: redeemed, quote: "redeemed his father", in: luke-skywalker, note: "'his father' is resolved to Darth Vader through Vader's 'father of Luke and Leia'."}
+  - {from: darth-vader, to: emperor-palpatine, type: serves, quote: "serves the Emperor", in: darth-vader, note: "'the Emperor' is resolved to Emperor Palpatine."}
+  - {from: han-solo, to: chewbacca, type: friend_of, quote: "close friend of Chewbacca", in: han-solo}
+  - {from: chewbacca, to: han-solo, type: companion_of, quote: "loyal companion of Han Solo", in: chewbacca}
+  - {from: obi-wan-kenobi, to: darth-vader, type: trained, quote: "trained Anakin Skywalker", in: obi-wan-kenobi, note: "Anakin Skywalker is resolved to Darth Vader through Vader's 'formerly Anakin Skywalker'."}
+  - {from: obi-wan-kenobi, to: luke-skywalker, type: guardian_of, quote: "guardian of Luke", in: obi-wan-kenobi}
+  - {from: darth-vader, to: obi-wan-kenobi, type: killed, quote: "killed by Darth Vader on the Death Star", in: obi-wan-kenobi}
+  - {from: ahsoka-tano, to: darth-vader, type: apprentice_of, quote: "Former Jedi Padawan of Anakin Skywalker", in: ahsoka-tano, note: "Anakin Skywalker is resolved to Darth Vader through Vader's 'formerly Anakin Skywalker'."}
+  - {from: han-solo, to: kylo-ren, type: parent_of, quote: "son of Han Solo and Leia Organa", in: kylo-ren}
+  - {from: leia-organa, to: kylo-ren, type: parent_of, quote: "son of Han Solo and Leia Organa", in: kylo-ren}
+  - {from: luke-skywalker, to: kylo-ren, type: trained, quote: "trained by Luke then Snoke", in: kylo-ren}
+  - {from: emperor-palpatine, to: rey, type: grandparent_of, quote: "granddaughter of Palpatine", in: rey}
+  - {from: luke-skywalker, to: rey, type: trained, quote: "trained by Luke and Leia", in: rey}
+  - {from: leia-organa, to: rey, type: trained, quote: "trained by Luke and Leia", in: rey}
+  - {from: mace-windu, to: emperor-palpatine, type: confronted, quote: "confronted Palpatine", in: mace-windu}
+  - {from: yoda, to: count-dooku, type: trained, quote: "trained by Yoda", in: count-dooku}
