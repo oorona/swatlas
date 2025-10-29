@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "artifact_id": "swatlas-characters",
+  "version": "2026-09-24.1",
+  "created_at": "2026-09-24T00:00:00Z",
+  "review_status": "draft",
+  "editorial": {
+    "version": 1,
+    "review_status": "draft",
+    "drafted_by": "Claude (implementation agent), 2026-09-24"
+  },
+  "kind": "measured-output",
+  "kind_note": "Scores and coordinates are computed by the offline pipeline from the shipped descriptions; editorial fields are hand-authored drafts.",
+  "source": {
+    "article_slug": "mapping-star-wars-universe",
+    "article_title": "Mapping the Star Wars Universe",
+    "article_path": "latent/data/articles/mapping-star-wars-universe/article.md",
+    "article_sha256": "9c3e98a713ea5d83f8da40a34f948428411918fc61750304748d6f61d40dd0a4",
+    "section": "Building character descriptions",
+    "block": "characters = {...}",
+    "line_start": 22,
+    "line_end": 53,
+    "descriptions_file": "scripts/authoring/sources/article_descriptions.v1.json",
+    "descriptions_sha256": "12f18144c41c94c4912f35d6df960bfedc7b744f171003151ac385102031fb4b",
+    "editorial_file": "scripts/authoring/sources/editorial.v1.yaml",
+    "editorial_sha256": "88089cbd51e583d22d953c9bf65ab339dae3ce3d10c7b9adf13ecdd51b71f164",
+    "description_edits": "none; authored descriptions are verbatim from the article"
+  },
+  "license": {
+    "descriptions": "Quoted from the author's own article; redistributed here by the same author.",
+    "model": "apache-2.0",
+    "model_reuse_terms": "Apache License 2.0 per the model card. Derived embeddings are redistributed with attribution to sentence-transformers/all-MiniLM-L6-v2; the model weights themselves are not redistributed.",
+    "portraits": "none included"
+  },
+  "model": {
+    "id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "dimensions": 384,
+    "pooling": "mean (model default)"
+  },
+  "modes": {
+    "authored": {
+      "label": "Authored descriptions",
+      "input_hash": "80fc55a1b1df00042ced75af409e22dfba02a5ded208363669a88be3d75dd3e5",
+      "norm_max_deviation": 6.585925138580251e-10,
+      "files": {
+        "vectors": "vectors.authored",
+        "similarity": "similarity.authored",
+        "projections": "projections.authored"
+      }
+    },
+    "relationships_removed": {
+      "label": "Named relationship phrases removed",
+      "input_hash": "d592f078e6f82e56eac3c95c2c7bdd4b31b8932aa5b848c2046d00ed61c40434",
+      "norm_max_deviation": 5.636754396576293e-10,
+      "files": {
+        "vectors": "vectors.variant",
+        "similarity": "similarity.variant",
+        "projections": "projections.variant"
+      }
+    }
+  },
+  "projections": {
+    "ids": [
+      "pca",
+      "umap-7",
+      "umap-21",
+      "umap-42"
+    ],
+    "umap_parameters": {
+      "n_components": 2,
+      "n_neighbors": 5,
+      "min_dist": 0.3,
+      "metric": "cosine",
+      "n_jobs": 1
+    },
+    "umap_seeds": [
+      7,
+      21,
+      42
+    ],
+    "note": "Coordinates are exported once and never refit in the browser. A seed alone does not reproduce UMAP; see execution settings and package versions.",
+    "reference": "https://umap-learn.readthedocs.io/en/latest/reproducibility.html"
+  },
+  "computation": {
+    "similarity": "cosine on L2-normalized original vectors",
+    "neighbor_order": "descending score, ties broken by ascending id, self excluded",
+    "graph_rule": "each unordered pair once when score >= threshold",
+    "default_threshold": 0.45,
+    "numeric_tolerance": 1e-06
+  },
+  "counts": {
+    "characters": 15,
+    "relationships": 21,
+    "modes": 2,
+    "projections_per_mode": 4,
+    "dimensions": 384
+  },
+  "packages": {
+    "sentence-transformers": "6.1.0",
+    "transformers": "5.17.0",
+    "tokenizers": "0.23.2",
+    "torch": "2.14.0+cpu",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "umap-learn": "0.5.12",
+    "pynndescent": "0.6.0",
+    "numba": "0.67.0",
+    "huggingface-hub": "1.33.0",
+    "pyyaml": "6.0.3"
+  },
+  "execution": {
+    "device": "cpu",
+    "torch_num_threads": 1,
+    "torch_deterministic_algorithms": true,
+    "numba_threading_layer_config": "default",
+    "numba_num_threads": 1,
+    "umap_n_jobs": 1,
+    "encode_batch_size": 1,
+    "normalize_embeddings_in_model": false,
+    "l2_normalized_in_pipeline": true,
+    "float_export_decimals": 9,
+    "python": "3.13.5",
+    "platform": "Linux-6.12.107+deb13-amd64-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "env": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMBA_NUM_THREADS": "1",
+      "PYTHONHASHSEED": "0"
+    }
+  },
+  "preparation_command": "./scripts/build_bundle.sh --version 2026-09-24.1",
+  "limitations": [
+    "Fifteen hand-written descriptions from one blog article; results describe these texts, not the characters or the franchise.",
+    "One small general-purpose embedding model (all-MiniLM-L6-v2). Other models will rank neighbors differently.",
+    "Allegiance, role, era, and Force-status fields are draft editorial classifications, not canon and not embedding axes.",
+    "The relationship-removed variant changes several phrases at once; a neighbor change cannot be attributed to a single factor.",
+    "2D projections distort distances. Rankings and scores always use the original 384-dimensional vectors.",
+    "Floating-point results are reproducible within the pinned environment on CPU; identical bits across hardware are not promised."
+  ],
+  "files": [
+    {
+      "key": "characters",
+      "path": "characters.286476c9ca73.json",
+      "sha256": "286476c9ca73700c68efdab9cca1e0d6b28b8d4abbfd3ec169cd0184aa0e3987",
+      "bytes": 12092,
+      "gzip_bytes": 2637
+    },
+    {
+      "key": "claims",
+      "path": "claims.6bf52b3734fb.json",
+      "sha256": "6bf52b3734fba8ee7718f4ab26ea9254a51b85c3aa08eda7fe4caa14f8961590",
+      "bytes": 5592,
+      "gzip_bytes": 1779
+    },
+    {
+      "key": "projections.authored",
+      "path": "projections.authored.2881f59d76a2.json",
+      "sha256": "2881f59d76a292dc50fac439760cec595f6247c0b4ad804cd368a928ecac007e",
+      "bytes": 4152,
+      "gzip_bytes": 1682
+    },
+    {
+      "key": "projections.variant",
+      "path": "projections.variant.cc633844dc12.json",
+      "sha256": "cc633844dc122d4c99c45d74550754d7858e060ee751129752fdd0f1d80c3222",
+      "bytes": 4139,
+      "gzip_bytes": 1684
+    },
+    {
+      "key": "relationships",
+      "path": "relationships.1a7ccc14c30e.json",
+      "sha256": "1a7ccc14c30ed7f7d9eebf0876b2152acd176d610c4b791a87933061c848dc9e",
+      "bytes": 4727,
+      "gzip_bytes": 882
+    },
+    {
+      "key": "similarity.authored",
+      "path": "similarity.authored.4a81b1c6bb2e.json",
+      "sha256": "4a81b1c6bb2e2aeafc39719868d9d3b388f1f6d42ae47d8bd2e1810174554974",
+      "bytes": 3126,
+      "gzip_bytes": 1285
+    },
+    {
+      "key": "similarity.variant",
+      "path": "similarity.variant.b161ae3278d5.json",
+      "sha256": "b161ae3278d51301547a2100b4e3b5e78f8883957792f402bf8aa5170d530997",
+      "bytes": 3137,
+      "gzip_bytes": 1310
+    },
+    {
+      "key": "vectors.authored",
+      "path": "vectors.authored.7020916c8dd8.json",
+      "sha256": "7020916c8dd8bedcad07a94714be64a2b3107a0d9b31940ac67b7fe03dcf8fa3",
+      "bytes": 71883,
+      "gzip_bytes": 29485
+    },
+    {
+      "key": "vectors.variant",
+      "path": "vectors.variant.fee4ea6b40d7.json",
+      "sha256": "fee4ea6b40d7d512f6c474cd118350646e328ee1eae78312ee58b930567b1a54",
+      "bytes": 71824,
+      "gzip_bytes": 29511
+    }
+  ],
+  "download": {
+    "path": "swatlas-2026-09-24.1.71814ebe4f66.zip",
+    "sha256": "71814ebe4f66116a3ccf53ca078731262f524443bb949f9704f34814426a6f31",
+    "bytes": 75870
+  },
+  "bundle_gzip_bytes": 73254
+}
