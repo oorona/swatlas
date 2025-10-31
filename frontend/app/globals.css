@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/* latentSource palette: ink navy, slate blue, sky, paper. */
+:root {
+  --ink: #172d46;
+  --blue: #577da5;
+  --sky: #b8d5e9;
+  --paper: #f2f0e9;
+  --background: #f7f6f1;
+  --surface: #ffffff;
+  --foreground: #172d46;
+  --muted: #4d5f73;
+  --border: #d5dbe2;
+  --accent: #2f5a86;
+  --accent-contrast: #ffffff;
+  --mark-sensitive: #3f6892;
+  --mark-not: #8a5a2b;
+  --mark-unknown: #5d6b7a;
+  --edge: #577da5;
+  --curated: #8a5a2b;
+  --focus: #b35c00;
+  --danger: #9b2c2c;
+  --ok: #276749;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f1c2c;
+    --surface: #152638;
+    --foreground: #eef2f6;
+    --muted: #a9b8c8;
+    --border: #2c4157;
+    --accent: #b8d5e9;
+    --accent-contrast: #0f1c2c;
+    --paper: #1a2d42;
+    --mark-sensitive: #8fb6dd;
+    --mark-not: #e0a868;
+    --mark-unknown: #b3c0cc;
+    --edge: #8fb6dd;
+    --curated: #e0a868;
+    --focus: #ffb454;
+    --danger: #f08080;
+    --ok: #7fd1a4;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-blue: var(--blue);
+  --color-sky: var(--sky);
+  --color-paper: var(--paper);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-danger: var(--danger);
+  --color-ok: var(--ok);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.grid-paper {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 5%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

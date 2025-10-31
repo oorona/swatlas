@@ -1,0 +1,281 @@
+{
+  "meta": {
+    "siteName": "Star Wars Semantic Atlas",
+    "homeTitle": "Star Wars Semantic Atlas: why embeddings call two characters similar",
+    "homeDescription": "Explore 15 Star Wars character descriptions in embedding space. See the 2D maps, similarity graph, and cosine matrix, check them against the article's claims, and download the evidence.",
+    "exploreTitle": "Explore the atlas",
+    "exploreDescription": "Select a character to see its five nearest neighbors by cosine similarity, with PCA/UMAP maps, a threshold graph, and a matrix. Every score comes from the shipped bundle.",
+    "methodologyTitle": "Methodology",
+    "methodologyDescription": "Inputs, model revision, cosine and projection settings, article claim checks, limitations, and reproduction steps for the Star Wars Semantic Atlas."
+  },
+  "nav": {
+    "home": "Atlas",
+    "explore": "Explore",
+    "methodology": "Methodology",
+    "language": "Language",
+    "switchTo": "Español",
+    "skip": "Skip to content",
+    "primary": "Primary"
+  },
+  "footer": {
+    "built": "Offline embeddings with all-MiniLM-L6-v2; no model or provider calls in your browser.",
+    "article": "Based on the article “Mapping the Star Wars Universe”",
+    "fanNote": "An unofficial fan and education project. Star Wars names belong to their owners. No images are used."
+  },
+  "home": {
+    "eyebrow": "Embedding investigation",
+    "title": "Why does a model think two Star Wars characters are alike?",
+    "lead": "Fifteen short character descriptions from one blog article, embedded with a small sentence model. Pick a character and look at its nearest neighbors, the scores behind them, and the words that produced them.",
+    "cta": "Open the explorer",
+    "methodologyCta": "Read the methodology",
+    "previewCaption": "PCA projection of the authored descriptions, drawn from bundle {version}. Positions are 2D approximations. Rankings use the original 384-dimensional cosine scores.",
+    "previewLabel": "Scatter plot of 15 characters in the PCA projection. {selected} is highlighted.",
+    "cards": {
+      "neighborsTitle": "Neighbors with scores",
+      "neighborsBody": "Every ranking uses cosine similarity on the original normalized vectors, never distances on the 2D map.",
+      "variantTitle": "Change the words",
+      "variantBody": "Switch to a variant with the named relationship phrases removed, then compare the text diff and the recomputed neighbors.",
+      "evidenceTitle": "Check the claims",
+      "evidenceBody": "The article's cluster claims are retested against the shipped scores. Some hold and some do not."
+    },
+    "articleLink": "Read the original article"
+  },
+  "explore": {
+    "heading": "Explore the atlas",
+    "intro": "Pick a character from the list or the chart. Hovering previews a character; clicking or pressing Enter selects it. Every score comes from bundle {version}.",
+    "loading": "Loading and verifying the artifact bundle…",
+    "noscript": "The explorer needs JavaScript. The methodology page and the downloadable bundle work without it."
+  },
+  "explorer": {
+    "errors": {
+      "unavailable-version": "Bundle version “{version}” is not available.",
+      "checksum-mismatch": "A bundle file failed its checksum, so nothing from it is shown.",
+      "schema-invalid": "A bundle file did not match the expected schema.",
+      "inconsistent": "The bundle files disagree with each other (version, ids, or input hash).",
+      "network": "The bundle could not be downloaded.",
+      "retry": "Try again",
+      "loadDefault": "Open the current version ({version})",
+      "availableVersions": "Available versions: {versions}"
+    },
+    "issues": {
+      "heading": "Some link settings were reset",
+      "oversized": "The link was too long, so every setting was reset to its default.",
+      "invalid-version": "The version in the link was malformed; the current version is shown.",
+      "invalid-character": "The character in the link was malformed.",
+      "invalid-view": "Unknown view; showing the map.",
+      "invalid-projection": "Unknown projection; showing PCA.",
+      "invalid-mode": "Unknown description mode; showing authored descriptions.",
+      "invalid-threshold": "Threshold must be between -1 and 1 in 0.01 steps; reset to 0.45.",
+      "invalid-filter": "Unknown filter values in “{field}” were removed.",
+      "invalid-curated": "The story-relationship toggle value was invalid; it is off.",
+      "dismiss": "Dismiss"
+    },
+    "unknownCharacter": {
+      "title": "Character not found",
+      "body": "“{id}” is not a character in bundle {version}. No other character was selected in its place.",
+      "selectDefault": "Select Luke Skywalker",
+      "chooseList": "Choose from the list"
+    },
+    "toolbar": {
+      "label": "Explorer controls",
+      "view": "View",
+      "views": { "map": "Map", "graph": "Graph", "matrix": "Matrix" },
+      "projection": "Projection",
+      "projections": { "pca": "PCA", "umap": "UMAP (seed {seed})" },
+      "mode": "Descriptions",
+      "modes": { "authored": "Authored", "relationships_removed": "Relationships removed" },
+      "copy": "Copy link",
+      "copied": "Link copied to the clipboard.",
+      "copyFallback": "Copying is blocked here. Select and copy this link:",
+      "reset": "Reset",
+      "resetDone": "Settings restored to the defaults.",
+      "downloadBundle": "Download bundle (.zip)",
+      "downloadCsv": "Neighbors (.csv)",
+      "version": "Bundle {version}"
+    },
+    "chart": {
+      "mapLabel": "{projection} projection of {visible} visible characters. {selected}",
+      "graphLabel": "Similarity graph on {projection} coordinates: {edges} edges at cosine ≥ {threshold}. {selected}",
+      "selectedSuffix": "Selected: {name}.",
+      "noneSelected": "No character selected.",
+      "selectedBadge": "selected",
+      "legendShape": "Marker shape and color show the editorial Force status. This is a label, not an embedding axis.",
+      "legendNeighbors": "Numbered markers are the selected character's nearest neighbors in the original space. Map distance can disagree with them.",
+      "projectionNote": "2D coordinates are fixed exports and carry no units. Switching projections moves points but never changes a ranking.",
+      "preview": "Preview: {name}",
+      "previewScore": "cosine with {selected}: {score} (rank {rank})",
+      "previewSelf": "the selected character",
+      "showTable": "Show as table",
+      "showChart": "Show as chart",
+      "emptyVisible": "Every character is hidden by the filters. Clear a filter to see the chart.",
+      "tableCaptionMap": "{projection} coordinates and cosine with {selected}",
+      "tableCaptionGraph": "Similarity edges at cosine ≥ {threshold}",
+      "colCharacter": "Character",
+      "colX": "x",
+      "colY": "y",
+      "colScore": "Cosine with selected",
+      "colRank": "Rank",
+      "colPair": "Pair",
+      "colCosine": "Cosine",
+      "colFrom": "From",
+      "colType": "Relationship",
+      "colTo": "To"
+    },
+    "graph": {
+      "threshold": "Similarity threshold",
+      "thresholdHint": "Edges connect pairs with cosine ≥ threshold (−1 to 1).",
+      "edgeCount": "{edges} of {pairs} visible pairs have cosine ≥ {threshold}.",
+      "noEdges": "No pair meets this threshold. That is a valid result, not an error.",
+      "curated": "Show curated story relationships",
+      "curatedLegend": "Dashed arrows are curated story relationships (editorial, directed, no similarity score).",
+      "similarityLegend": "Solid lines are cosine similarity edges (undirected). Thicker means higher.",
+      "curatedCount": "{count} curated relationships shown."
+    },
+    "matrix": {
+      "label": "Cosine similarity matrix of the visible characters. Use the arrow keys to move and Enter to select the row's character.",
+      "caption": "Cosine similarity, original 384-dimensional space ({mode})",
+      "semantic": "Show plain table",
+      "heatmap": "Show heatmap grid",
+      "cell": "{row} and {col}: {score}",
+      "focusHint": "Focused: {row} × {col} = {score}"
+    },
+    "list": {
+      "heading": "Characters",
+      "label": "Characters. Use the arrow keys to preview and Enter to select.",
+      "hiddenCount": "{count} hidden by filters",
+      "neighborRank": "neighbor {rank}",
+      "skip": "Skip to the character list"
+    },
+    "details": {
+      "heading": "Selected character",
+      "none": "No character is selected. Choose one from the list.",
+      "hiddenByFilters": "This character is hidden by the current filters. Its neighbors still use the visible set.",
+      "descriptionAuthored": "Authored description",
+      "descriptionVariant": "Description with named relationships removed",
+      "sourceLanguage": "Source text in English, unchanged.",
+      "source": "Source: {ref}",
+      "diffHeading": "Changes from the authored description",
+      "removed": "removed",
+      "added": "added",
+      "noChange": "No named relationship phrases, so this description is unchanged and its vector is identical.",
+      "neighborsHeading": "Nearest {count} of {visible} visible",
+      "neighborsNote": "Cosine similarity on the original normalized vectors; ties are ordered by id.",
+      "neighborsEmpty": "No other visible character to compare.",
+      "otherMode": "{mode}: rank {rank}, {score}",
+      "otherModeHidden": "{mode}: not in the visible set",
+      "variantCaveat": "The variant removes several phrases at once. A neighbor change shows that the words matter, but it does not isolate a single cause.",
+      "inputHash": "Input hash ({mode}): {hash}",
+      "editorialHeading": "Editorial classification",
+      "draft": "Draft: not reviewed, not canon, not an embedding axis",
+      "allegiances": "Allegiance",
+      "roles": "Role",
+      "eras": "Era",
+      "force_status": "Force status",
+      "relationshipsHeading": "Curated story relationships",
+      "relationshipsNote": "Editorial and directed. Quoted from the descriptions. No similarity score.",
+      "relationshipsNone": "None among the 15 characters.",
+      "select": "Select {name}"
+    },
+    "filters": {
+      "heading": "Filters",
+      "note": "Filters use editorial fields, not embedding axes. They hide characters and recompute visible neighbors from the same full matrix. Projections are not refit.",
+      "count": "Showing {visible} of {total} characters",
+      "clear": "Clear filters"
+    },
+    "status": {
+      "summary": "{name} selected. {view} view, {mode} descriptions. {visible} of {total} characters visible.",
+      "none": "No character selected. {visible} of {total} characters visible."
+    }
+  },
+  "vocab": {
+    "allegiances": {
+      "jedi-order": "Jedi Order", "sith": "Sith", "rebel-alliance": "Rebel Alliance", "galactic-empire": "Galactic Empire",
+      "separatists": "Separatists", "mandalorian": "Mandalorian", "independent": "Independent", "unknown": "Unknown", "disputed": "Disputed"
+    },
+    "roles": {
+      "jedi": "Jedi", "sith": "Sith", "mentor": "Mentor", "leader": "Leader", "diplomat": "Diplomat", "smuggler": "Smuggler",
+      "pilot": "Pilot", "bounty-hunter": "Bounty hunter", "warrior": "Warrior", "scavenger": "Scavenger"
+    },
+    "eras": {
+      "prequel": "Prequel era", "original": "Original trilogy era", "new-republic": "New Republic era", "sequel": "Sequel era", "unknown": "Unknown"
+    },
+    "force_status": {
+      "sensitive": "Force-sensitive", "not_sensitive": "Not Force-sensitive", "unknown": "Unknown", "disputed": "Disputed"
+    },
+    "relationship": {
+      "parent_of": "parent of", "sibling_of": "sibling of", "grandparent_of": "grandparent of", "trained": "trained",
+      "guardian_of": "guardian of", "apprentice_of": "apprentice of", "serves": "serves", "friend_of": "friend of",
+      "companion_of": "companion of", "killed": "killed", "confronted": "confronted", "redeemed": "redeemed"
+    },
+    "outcome": { "supported": "Supported", "partial": "Partial", "contradicted": "Contradicted" }
+  },
+  "methodology": {
+    "heading": "Methodology",
+    "lead": "What goes in, what is computed, what can be reproduced, and where the numbers stop being evidence.",
+    "toc": "On this page",
+    "inputs": {
+      "heading": "Inputs",
+      "body": "The 15 descriptions are quoted verbatim from the “{section}” code block of the article “{title}” (lines {start}–{end}). They are unedited, so no description version has been recorded yet. They were written to encode faction, role, Force sensitivity, era, and relationships, so similarity reflects those word choices.",
+      "articleHash": "Article SHA-256",
+      "descriptionsHash": "Vendored descriptions SHA-256",
+      "editorialHash": "Editorial layer SHA-256"
+    },
+    "model": {
+      "heading": "Embedding model",
+      "body": "Each description is encoded separately (batch size 1, CPU, one thread) with {model} at an exact pinned revision. Vectors are L2-normalized, checked for unit norm within 1e-5, and zero vectors are rejected. The model ran once, offline, when the bundle was prepared. Your browser only reads the saved results.",
+      "revision": "Revision",
+      "license": "License",
+      "dimensions": "Dimensions"
+    },
+    "computation": {
+      "heading": "Similarity, neighbors, and graph",
+      "cosine": "Scores are cosine similarity between the original normalized 384-dimensional vectors. An independent NumPy recomputation matches the exported matrix within 1e-6. The matrix is symmetric and its diagonal is 1.",
+      "neighbors": "The neighbor list excludes the character itself, sorts by descending score, and breaks ties by id. Filters change which characters are eligible, not the scores.",
+      "graph": "Similarity edges are undirected and include each unordered pair once when cosine ≥ threshold. The default threshold is 0.45. At threshold 1 the graph keeps any pair that truly scores 1, which here is none. Curated story edges are drawn separately and never carry a score."
+    },
+    "projections": {
+      "heading": "Projections",
+      "body": "PCA (full SVD, deterministic sign) and UMAP (n_neighbors 5, min_dist 0.3, cosine metric, seeds 7, 21, and 42, single-threaded) were fitted once and exported. The browser never refits them. A seed alone does not guarantee identical UMAP output, so the package versions and execution settings are recorded below.",
+      "pcaVariance": "PCA explained variance (authored): {pc1} and {pc2}",
+      "reference": "UMAP reproducibility notes"
+    },
+    "editorial": {
+      "heading": "Editorial layer (draft)",
+      "body": "Allegiance, role, era, Force status, the classification notes, the 21 curated story relationships, and the relationship-free variants were drafted from the descriptions' own wording. They are marked draft, are not canon, and are not embedding axes. Where the article's plotting code disagrees with a description (Ahsoka, Kylo Ren, Leia, Boba Fett), the note says so, and Ahsoka's allegiance is marked disputed."
+    },
+    "variant": {
+      "heading": "Description variant",
+      "body": "The variant removes named relationship phrases such as “son of Anakin Skywalker” or “trained by Yoda”. It keeps identity aliases such as “formerly Ben Solo”. Each variant has its own input hash, vectors, matrix, and projections. Several phrases change at once, so a shift in neighbors does not isolate one cause."
+    },
+    "claims": {
+      "heading": "Article claims, retested",
+      "body": "Each narrative claim in the article was turned into a concrete test on the shipped scores. Where a claim concerns the 2D picture, it is tested in the original space, and the test text says so. The article is not edited. Contradictions are reported here for editorial review.",
+      "claim": "Claim (article, English)",
+      "test": "Test",
+      "authored": "Authored",
+      "variant": "Relationships removed"
+    },
+    "limitations": { "heading": "Limitations" },
+    "reproduce": {
+      "heading": "Reproduce",
+      "body": "From the project root, one command rebuilds the bundle. It downloads the pinned model revision on the first run, writes content-hashed files and a manifest, and fails if any check does not pass. Rebuilding in the same environment reproduces the same hashes. Identical floating-point output on other hardware is not guaranteed.",
+      "packages": "Pinned packages",
+      "execution": "Execution settings"
+    },
+    "downloads": {
+      "heading": "Downloads",
+      "body": "The zip holds the descriptions, normalized embeddings, original-space cosine matrices, projection parameters and coordinates, claim checks, the manifest, and a README. CSV cells are protected against spreadsheet formulas.",
+      "zip": "Download bundle {version} (.zip, {size})",
+      "manifest": "View manifest.json"
+    },
+    "version": {
+      "heading": "Bundle version",
+      "body": "Version {version}, schema v{schema}, created {created}. Measured output from the offline pipeline. Editorial fields are hand-authored drafts. Compressed bundle size: {size}."
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "That page does not exist in the atlas.",
+    "home": "Go to the atlas"
+  }
+}

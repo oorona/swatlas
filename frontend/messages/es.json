@@ -1,0 +1,281 @@
+{
+  "meta": {
+    "siteName": "Atlas semántico de Star Wars",
+    "homeTitle": "Atlas semántico de Star Wars: por qué los embeddings ven parecidos a dos personajes",
+    "homeDescription": "Explora 15 descripciones de personajes de Star Wars en un espacio de embeddings. Consulta los mapas 2D, el grafo de similitud y la matriz de cosenos, contrástalos con las afirmaciones del artículo y descarga la evidencia.",
+    "exploreTitle": "Explorar el atlas",
+    "exploreDescription": "Elige un personaje para ver sus cinco vecinos más cercanos por similitud coseno, con mapas PCA/UMAP, un grafo con umbral y una matriz. Cada puntuación sale del paquete publicado.",
+    "methodologyTitle": "Metodología",
+    "methodologyDescription": "Entradas, revisión del modelo, parámetros de coseno y proyección, verificación de las afirmaciones del artículo, limitaciones y pasos de reproducción del Atlas semántico de Star Wars."
+  },
+  "nav": {
+    "home": "Atlas",
+    "explore": "Explorar",
+    "methodology": "Metodología",
+    "language": "Idioma",
+    "switchTo": "English",
+    "skip": "Saltar al contenido",
+    "primary": "Principal"
+  },
+  "footer": {
+    "built": "Embeddings calculados sin conexión con all-MiniLM-L6-v2; tu navegador no llama a ningún modelo ni proveedor.",
+    "article": "Basado en el artículo “Mapping the Star Wars Universe”",
+    "fanNote": "Proyecto no oficial, hecho por afición y con fines educativos. Los nombres de Star Wars pertenecen a sus dueños. No se usan imágenes."
+  },
+  "home": {
+    "eyebrow": "Investigación de embeddings",
+    "title": "¿Por qué un modelo cree que dos personajes de Star Wars se parecen?",
+    "lead": "Quince descripciones breves de personajes, tomadas de un artículo de blog y convertidas en embeddings con un modelo de oraciones pequeño. Elige un personaje y revisa sus vecinos más cercanos, las puntuaciones que los respaldan y las palabras que las produjeron.",
+    "cta": "Abrir el explorador",
+    "methodologyCta": "Leer la metodología",
+    "previewCaption": "Proyección PCA de las descripciones originales, tomada del paquete {version}. Las posiciones son aproximaciones 2D. Los rankings usan la similitud coseno original en 384 dimensiones.",
+    "previewLabel": "Gráfico de dispersión de 15 personajes en la proyección PCA. {selected} aparece resaltado.",
+    "cards": {
+      "neighborsTitle": "Vecinos con puntuación",
+      "neighborsBody": "Cada ranking usa la similitud coseno de los vectores normalizados originales, nunca las distancias del mapa 2D.",
+      "variantTitle": "Cambia las palabras",
+      "variantBody": "Cambia a una variante sin las frases de relaciones con nombre y compara la diferencia de texto con los vecinos recalculados.",
+      "evidenceTitle": "Verifica las afirmaciones",
+      "evidenceBody": "Las afirmaciones del artículo sobre los grupos se vuelven a probar con las puntuaciones publicadas. Algunas se sostienen y otras no."
+    },
+    "articleLink": "Leer el artículo original (en inglés)"
+  },
+  "explore": {
+    "heading": "Explorar el atlas",
+    "intro": "Elige un personaje en la lista o en el gráfico. Pasar el cursor muestra una vista previa; hacer clic o pulsar Enter lo selecciona. Cada puntuación sale del paquete {version}.",
+    "loading": "Cargando y verificando el paquete de artefactos…",
+    "noscript": "El explorador necesita JavaScript. La metodología y el paquete descargable funcionan sin él."
+  },
+  "explorer": {
+    "errors": {
+      "unavailable-version": "La versión del paquete “{version}” no está disponible.",
+      "checksum-mismatch": "Un archivo del paquete no superó su suma de verificación, así que no se muestra nada de él.",
+      "schema-invalid": "Un archivo del paquete no coincide con el esquema esperado.",
+      "inconsistent": "Los archivos del paquete no coinciden entre sí (versión, ids o hash de entrada).",
+      "network": "No se pudo descargar el paquete.",
+      "retry": "Reintentar",
+      "loadDefault": "Abrir la versión actual ({version})",
+      "availableVersions": "Versiones disponibles: {versions}"
+    },
+    "issues": {
+      "heading": "Algunos ajustes del enlace se restablecieron",
+      "oversized": "El enlace era demasiado largo, así que todos los ajustes volvieron a sus valores predeterminados.",
+      "invalid-version": "La versión del enlace estaba mal formada; se muestra la versión actual.",
+      "invalid-character": "El personaje del enlace estaba mal formado.",
+      "invalid-view": "Vista desconocida; se muestra el mapa.",
+      "invalid-projection": "Proyección desconocida; se muestra PCA.",
+      "invalid-mode": "Modo de descripción desconocido; se muestran las descripciones originales.",
+      "invalid-threshold": "El umbral debe estar entre -1 y 1 en pasos de 0.01; se restableció a 0.45.",
+      "invalid-filter": "Se quitaron valores de filtro desconocidos en “{field}”.",
+      "invalid-curated": "El valor del interruptor de relaciones de la historia no era válido; está apagado.",
+      "dismiss": "Cerrar"
+    },
+    "unknownCharacter": {
+      "title": "Personaje no encontrado",
+      "body": "“{id}” no es un personaje del paquete {version}. No se seleccionó a nadie más en su lugar.",
+      "selectDefault": "Seleccionar a Luke Skywalker",
+      "chooseList": "Elegir de la lista"
+    },
+    "toolbar": {
+      "label": "Controles del explorador",
+      "view": "Vista",
+      "views": { "map": "Mapa", "graph": "Grafo", "matrix": "Matriz" },
+      "projection": "Proyección",
+      "projections": { "pca": "PCA", "umap": "UMAP (semilla {seed})" },
+      "mode": "Descripciones",
+      "modes": { "authored": "Originales", "relationships_removed": "Sin relaciones" },
+      "copy": "Copiar enlace",
+      "copied": "Enlace copiado al portapapeles.",
+      "copyFallback": "Aquí no se puede copiar automáticamente. Selecciona y copia este enlace:",
+      "reset": "Restablecer",
+      "resetDone": "Se restauraron los ajustes predeterminados.",
+      "downloadBundle": "Descargar paquete (.zip)",
+      "downloadCsv": "Vecinos (.csv)",
+      "version": "Paquete {version}"
+    },
+    "chart": {
+      "mapLabel": "Proyección {projection} de {visible} personajes visibles. {selected}",
+      "graphLabel": "Grafo de similitud sobre coordenadas {projection}: {edges} aristas con coseno ≥ {threshold}. {selected}",
+      "selectedSuffix": "Seleccionado: {name}.",
+      "noneSelected": "Ningún personaje seleccionado.",
+      "selectedBadge": "seleccionado",
+      "legendShape": "La forma y el color del marcador indican la sensibilidad a la Fuerza según la clasificación editorial. Es una etiqueta, no un eje del embedding.",
+      "legendNeighbors": "Los marcadores numerados son los vecinos más cercanos del personaje seleccionado en el espacio original. La distancia en el mapa puede no coincidir con ellos.",
+      "projectionNote": "Las coordenadas 2D son exportaciones fijas y no tienen unidades. Cambiar de proyección mueve los puntos, pero nunca cambia un ranking.",
+      "preview": "Vista previa: {name}",
+      "previewScore": "coseno con {selected}: {score} (posición {rank})",
+      "previewSelf": "el personaje seleccionado",
+      "showTable": "Ver como tabla",
+      "showChart": "Ver como gráfico",
+      "emptyVisible": "Los filtros ocultan a todos los personajes. Quita un filtro para ver el gráfico.",
+      "tableCaptionMap": "Coordenadas {projection} y coseno con {selected}",
+      "tableCaptionGraph": "Aristas de similitud con coseno ≥ {threshold}",
+      "colCharacter": "Personaje",
+      "colX": "x",
+      "colY": "y",
+      "colScore": "Coseno con el seleccionado",
+      "colRank": "Posición",
+      "colPair": "Par",
+      "colCosine": "Coseno",
+      "colFrom": "Desde",
+      "colType": "Relación",
+      "colTo": "Hacia"
+    },
+    "graph": {
+      "threshold": "Umbral de similitud",
+      "thresholdHint": "Las aristas unen pares con coseno ≥ umbral (−1 a 1).",
+      "edgeCount": "{edges} de {pairs} pares visibles tienen coseno ≥ {threshold}.",
+      "noEdges": "Ningún par alcanza este umbral. Es un resultado válido, no un error.",
+      "curated": "Mostrar relaciones de la historia",
+      "curatedLegend": "Las flechas discontinuas son relaciones de la historia (editoriales, con dirección y sin puntuación de similitud).",
+      "similarityLegend": "Las líneas continuas son aristas de similitud coseno (sin dirección). Más gruesa significa más alta.",
+      "curatedCount": "Se muestran {count} relaciones de la historia."
+    },
+    "matrix": {
+      "label": "Matriz de similitud coseno de los personajes visibles. Usa las flechas para moverte y Enter para seleccionar al personaje de la fila.",
+      "caption": "Similitud coseno, espacio original de 384 dimensiones ({mode})",
+      "semantic": "Ver tabla simple",
+      "heatmap": "Ver mapa de calor",
+      "cell": "{row} y {col}: {score}",
+      "focusHint": "Celda enfocada: {row} × {col} = {score}"
+    },
+    "list": {
+      "heading": "Personajes",
+      "label": "Personajes. Usa las flechas para ver una vista previa y Enter para seleccionar.",
+      "hiddenCount": "{count} ocultos por los filtros",
+      "neighborRank": "vecino {rank}",
+      "skip": "Saltar a la lista de personajes"
+    },
+    "details": {
+      "heading": "Personaje seleccionado",
+      "none": "No hay ningún personaje seleccionado. Elige uno de la lista.",
+      "hiddenByFilters": "Los filtros actuales ocultan a este personaje. Sus vecinos se calculan igualmente sobre el conjunto visible.",
+      "descriptionAuthored": "Descripción original",
+      "descriptionVariant": "Descripción sin relaciones con nombre",
+      "sourceLanguage": "Texto fuente en inglés, sin traducir.",
+      "source": "Fuente: {ref}",
+      "diffHeading": "Cambios respecto a la descripción original",
+      "removed": "eliminado",
+      "added": "añadido",
+      "noChange": "No contiene frases de relaciones con nombre, así que la descripción no cambia y su vector es idéntico.",
+      "neighborsHeading": "Los {count} más cercanos de {visible} visibles",
+      "neighborsNote": "Similitud coseno sobre los vectores normalizados originales; los empates se ordenan por id.",
+      "neighborsEmpty": "No hay otro personaje visible para comparar.",
+      "otherMode": "{mode}: posición {rank}, {score}",
+      "otherModeHidden": "{mode}: fuera del conjunto visible",
+      "variantCaveat": "La variante elimina varias frases a la vez. Un cambio de vecinos muestra que las palabras influyen, pero no aísla una sola causa.",
+      "inputHash": "Hash de entrada ({mode}): {hash}",
+      "editorialHeading": "Clasificación editorial",
+      "draft": "Borrador: sin revisar, no es canon ni un eje del embedding",
+      "allegiances": "Lealtad",
+      "roles": "Rol",
+      "eras": "Era",
+      "force_status": "Fuerza",
+      "relationshipsHeading": "Relaciones de la historia",
+      "relationshipsNote": "Editoriales y con dirección. Citadas de las descripciones. Sin puntuación de similitud.",
+      "relationshipsNone": "Ninguna entre los 15 personajes.",
+      "select": "Seleccionar a {name}"
+    },
+    "filters": {
+      "heading": "Filtros",
+      "note": "Los filtros usan campos editoriales, no ejes del embedding. Ocultan personajes y recalculan los vecinos visibles con la misma matriz completa. Las proyecciones no se reajustan.",
+      "count": "Se muestran {visible} de {total} personajes",
+      "clear": "Quitar filtros"
+    },
+    "status": {
+      "summary": "{name} seleccionado. Vista {view}, descripciones {mode}. {visible} de {total} personajes visibles.",
+      "none": "Ningún personaje seleccionado. {visible} de {total} personajes visibles."
+    }
+  },
+  "vocab": {
+    "allegiances": {
+      "jedi-order": "Orden Jedi", "sith": "Sith", "rebel-alliance": "Alianza Rebelde", "galactic-empire": "Imperio Galáctico",
+      "separatists": "Separatistas", "mandalorian": "Mandaloriano", "independent": "Independiente", "unknown": "Desconocido", "disputed": "En disputa"
+    },
+    "roles": {
+      "jedi": "Jedi", "sith": "Sith", "mentor": "Mentor", "leader": "Líder", "diplomat": "Diplomático", "smuggler": "Contrabandista",
+      "pilot": "Piloto", "bounty-hunter": "Cazarrecompensas", "warrior": "Guerrero", "scavenger": "Chatarrero"
+    },
+    "eras": {
+      "prequel": "Era de las precuelas", "original": "Era de la trilogía original", "new-republic": "Era de la Nueva República", "sequel": "Era de las secuelas", "unknown": "Desconocida"
+    },
+    "force_status": {
+      "sensitive": "Sensible a la Fuerza", "not_sensitive": "No sensible a la Fuerza", "unknown": "Desconocido", "disputed": "En disputa"
+    },
+    "relationship": {
+      "parent_of": "progenitor de", "sibling_of": "hermano/a de", "grandparent_of": "abuelo/a de", "trained": "entrenó a",
+      "guardian_of": "guardián de", "apprentice_of": "aprendiz de", "serves": "sirve a", "friend_of": "amigo de",
+      "companion_of": "compañero de", "killed": "mató a", "confronted": "enfrentó a", "redeemed": "redimió a"
+    },
+    "outcome": { "supported": "Se sostiene", "partial": "Parcial", "contradicted": "Contradicha" }
+  },
+  "methodology": {
+    "heading": "Metodología",
+    "lead": "Qué entra, qué se calcula, qué se puede reproducir y dónde los números dejan de ser evidencia.",
+    "toc": "En esta página",
+    "inputs": {
+      "heading": "Entradas",
+      "body": "Las 15 descripciones se citan literalmente del bloque de código “{section}” del artículo “{title}” (líneas {start}–{end}). No se editaron, así que todavía no hay una versión de descripciones registrada. Se escribieron para reflejar facción, rol, sensibilidad a la Fuerza, era y relaciones, de modo que la similitud refleja esas palabras.",
+      "articleHash": "SHA-256 del artículo",
+      "descriptionsHash": "SHA-256 de las descripciones incluidas",
+      "editorialHash": "SHA-256 de la capa editorial"
+    },
+    "model": {
+      "heading": "Modelo de embeddings",
+      "body": "Cada descripción se codifica por separado (lote de 1, CPU, un hilo) con {model} en una revisión exacta y fija. Los vectores se normalizan con L2, se verifica que su norma sea unitaria con una tolerancia de 1e-5 y se rechazan los vectores nulos. El modelo se ejecutó una sola vez, sin conexión, al preparar el paquete. Tu navegador solo lee los resultados guardados.",
+      "revision": "Revisión",
+      "license": "Licencia",
+      "dimensions": "Dimensiones"
+    },
+    "computation": {
+      "heading": "Similitud, vecinos y grafo",
+      "cosine": "Las puntuaciones son la similitud coseno entre los vectores originales normalizados de 384 dimensiones. Un recálculo independiente con NumPy coincide con la matriz exportada dentro de 1e-6. La matriz es simétrica y su diagonal vale 1.",
+      "neighbors": "La lista de vecinos excluye al propio personaje, ordena por puntuación descendente y desempata por id. Los filtros cambian qué personajes pueden aparecer, no las puntuaciones.",
+      "graph": "Las aristas de similitud no tienen dirección e incluyen cada par no ordenado una sola vez cuando el coseno es ≥ umbral. El umbral predeterminado es 0.45. Con umbral 1 el grafo conserva cualquier par que valga exactamente 1, y aquí no hay ninguno. Las relaciones de la historia se dibujan aparte y nunca tienen puntuación."
+    },
+    "projections": {
+      "heading": "Proyecciones",
+      "body": "PCA (SVD completa, signo determinista) y UMAP (n_neighbors 5, min_dist 0.3, métrica coseno, semillas 7, 21 y 42, un solo hilo) se ajustaron una vez y se exportaron. El navegador nunca los vuelve a ajustar. Una semilla por sí sola no garantiza un resultado idéntico de UMAP, así que más abajo se registran las versiones de paquetes y la configuración de ejecución.",
+      "pcaVariance": "Varianza explicada por PCA (originales): {pc1} y {pc2}",
+      "reference": "Notas de reproducibilidad de UMAP (en inglés)"
+    },
+    "editorial": {
+      "heading": "Capa editorial (borrador)",
+      "body": "La lealtad, el rol, la era, la sensibilidad a la Fuerza, las notas de clasificación, las 21 relaciones de la historia y las variantes sin relaciones se redactaron a partir del texto de las propias descripciones. Están marcadas como borrador, no son canon y no son ejes del embedding. Cuando el código de visualización del artículo contradice una descripción (Ahsoka, Kylo Ren, Leia, Boba Fett), la nota lo indica, y la lealtad de Ahsoka figura como en disputa."
+    },
+    "variant": {
+      "heading": "Variante de descripción",
+      "body": "La variante elimina las frases de relaciones con nombre, como “son of Anakin Skywalker” o “trained by Yoda”. Conserva los alias de identidad, como “formerly Ben Solo”. Cada variante tiene su propio hash de entrada, vectores, matriz y proyecciones. Cambian varias frases a la vez, así que un cambio de vecinos no aísla una sola causa."
+    },
+    "claims": {
+      "heading": "Afirmaciones del artículo, verificadas de nuevo",
+      "body": "Cada afirmación narrativa del artículo se convirtió en una prueba concreta sobre las puntuaciones publicadas. Cuando una afirmación trata sobre la imagen 2D, se prueba en el espacio original, y el texto de la prueba lo indica. El artículo no se modifica. Las contradicciones se reportan aquí para revisión editorial.",
+      "claim": "Afirmación (artículo, en inglés)",
+      "test": "Prueba (en inglés)",
+      "authored": "Originales",
+      "variant": "Sin relaciones"
+    },
+    "limitations": { "heading": "Limitaciones" },
+    "reproduce": {
+      "heading": "Reproducir",
+      "body": "Desde la raíz del proyecto, un solo comando reconstruye el paquete. En la primera ejecución descarga la revisión fijada del modelo, escribe archivos con hash de contenido y un manifiesto, y falla si alguna verificación no pasa. Reconstruir en el mismo entorno produce los mismos hashes. No se garantiza un resultado de punto flotante idéntico en otro hardware.",
+      "packages": "Paquetes fijados",
+      "execution": "Configuración de ejecución"
+    },
+    "downloads": {
+      "heading": "Descargas",
+      "body": "El zip contiene las descripciones, los embeddings normalizados, las matrices de coseno del espacio original, los parámetros y coordenadas de las proyecciones, la verificación de afirmaciones, el manifiesto y un README. Las celdas CSV están protegidas contra fórmulas de hoja de cálculo.",
+      "zip": "Descargar paquete {version} (.zip, {size})",
+      "manifest": "Ver manifest.json"
+    },
+    "version": {
+      "heading": "Versión del paquete",
+      "body": "Versión {version}, esquema v{schema}, creada el {created}. Resultado medido por el proceso sin conexión. Los campos editoriales son borradores hechos a mano. Tamaño comprimido del paquete: {size}."
+    }
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "Esa página no existe en el atlas.",
+    "home": "Ir al atlas"
+  }
+}
