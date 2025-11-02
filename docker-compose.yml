@@ -1,0 +1,43 @@
+# swatlas: frontend-only. No backend, database, Redis, or model service.
+# Postgres/Redis/Traefik are infra singletons and never appear here.
+services:
+  swatlas-frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+        NEXT_PUBLIC_ARTICLE_URL: ${NEXT_PUBLIC_ARTICLE_URL:-https://thelatentsource.com/articles/mapping-star-wars-universe}
+    image: swatlas-frontend:${BUILD_VERSION:-latest}
+    container_name: ${FRONTEND_CONTAINER_NAME:-swatlas-frontend}
+    restart: unless-stopped
+    user: "${APP_UID:-1000}:${APP_GID:-1000}"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 200
+    mem_limit: 512m
+    cpus: 1.0
+    tmpfs:
+      - /tmp:size=64M,uid=${APP_UID:-1000},gid=${APP_GID:-1000}
+      - /app/.next/cache:size=128M,uid=${APP_UID:-1000},gid=${APP_GID:-1000}
+    environment:
+      NODE_ENV: production
+    expose: ["3000"]
+    networks: [internet, intranet]
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=internet
+      - traefik.http.routers.swatlas.rule=Host(`${PROJECT_HOST}`)
+      - traefik.http.routers.swatlas.entrypoints=websecure
+      - traefik.http.routers.swatlas.tls=true
+      - traefik.http.routers.swatlas.tls.certresolver=${TRAEFIK_CERTRESOLVER:-cloudflare}
+      - traefik.http.services.swatlas.loadbalancer.server.port=3000
+      - traefik.http.routers.swatlas-http.rule=Host(`${PROJECT_HOST}`)
+      - traefik.http.routers.swatlas-http.entrypoints=web
+      - traefik.http.routers.swatlas-http.middlewares=swatlas-https
+      - traefik.http.middlewares.swatlas-https.redirectscheme.scheme=https
+      - traefik.http.middlewares.swatlas-https.redirectscheme.permanent=true
+
+networks:
+  internet: { external: true }
+  intranet: { external: true }
