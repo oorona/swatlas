@@ -26,8 +26,10 @@ def test_both_description_variants_present_and_distinct_where_edited():
 
 def test_complete_source_references():
     src = load_sources()
+    block = json.loads(config.DESCRIPTIONS_FILE.read_text())["source"]
+    lines = f"L{block['line_start']}-L{block['line_end']}"
     for c in src.characters:
-        assert c.source_ref.startswith("mapping-star-wars-universe#building-character-descriptions:L22-L53")
+        assert c.source_ref.startswith(f"mapping-star-wars-universe#building-character-descriptions:{lines}")
         assert c.name in c.source_ref
     for rel in src.relationships:
         assert rel.source_ref and '"' in rel.source_ref

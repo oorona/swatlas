@@ -27,6 +27,14 @@ To re-extract the descriptions from the article (they are already vendored): `cd
 
 ## Exact model revision
 
+Bundle 2026-09-28.1 (default):
+- Model: `intfloat/e5-large-v2`, 1024 dimensions, every input prefixed with `passage: `.
+- Revision: `f169b11e22de13617baa190a028a32f3493550b6`, resolved from the Hugging Face API on 2026-09-28 (repo lastModified 2025-02-17).
+- License: MIT. Derived embeddings are redistributed with attribution; the weights are not redistributed.
+- Chosen after comparing nine open models on these descriptions (MiniLM, MPNet, BGE small/base/large, E5 base/large, GTE base, mxbai large). E5-large-v2 had the best group separation (silhouette 0.119 vs 0.102 for MiniLM) and the tightest Jedi Council cluster.
+- E5 scores are compressed (0.80 to 0.94 here), so the default graph threshold moved from 0.45 to 0.87 (17 of 105 pairs).
+
+Bundle 2026-09-24.1 (still loadable with `?v=2026-09-24.1`):
 - Model: `sentence-transformers/all-MiniLM-L6-v2`
 - Revision: `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`, resolved from the Hugging Face API on 2026-09-24 (repo lastModified 2026-06-01).
 - License: Apache-2.0. Derived embeddings are redistributed with attribution; the weights are not redistributed.
@@ -83,6 +91,10 @@ Explanations for the misses:
 3. The recomputed neighbors are Rey 0.729, Obi-Wan 0.618, Han Solo 0.592, Darth Vader 0.589, and Yoda 0.576. Han Solo enters the top 5 and Ahsoka drops to 7th. Each row shows its rank in the other mode.
 4. Kylo Ren shows the strongest effect. His description loses "son of Han Solo and Leia Organa" and "trained by Luke then Snoke". His top score falls from 0.575 (Chewbacca) to 0.304 (Han Solo), and every neighbor drops below 0.31. Most of his similarity to the rest of the cast came from named relationship phrases.
 5. The page states that several phrases change at once, so the shift shows that the words matter but does not isolate one cause.
+
+## Article rewrite (2026-09-28)
+
+The article was rewritten against bundle 2026-09-28.1 and `claims.py` now tests its 14 new claims. On the authored descriptions 13 are supported; the 14th ("the Sith pull together once the family ties are gone") is about the relationship-removed variant and is supported there. The `characters = {...}` block is unchanged, so the embedding input is identical; only the article hash and block line numbers moved. The section below describes the original article and bundle 2026-09-24.1.
 
 ## Article claims contradicted by the shipped scores (for editorial review)
 

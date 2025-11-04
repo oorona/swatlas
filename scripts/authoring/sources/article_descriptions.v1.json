@@ -3,11 +3,11 @@
     "article_slug": "mapping-star-wars-universe",
     "article_title": "Mapping the Star Wars Universe",
     "article_path": "latent/data/articles/mapping-star-wars-universe/article.md",
-    "article_sha256": "9c3e98a713ea5d83f8da40a34f948428411918fc61750304748d6f61d40dd0a4",
+    "article_sha256": "8a0c5d93421ac7f23eb2c5db22cce40e790b4ba479b718f0a63827c546f750db",
     "section": "Building character descriptions",
     "block": "characters = {...}",
-    "line_start": 22,
-    "line_end": 53
+    "line_start": 23,
+    "line_end": 54
   },
   "characters": [
     {

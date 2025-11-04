@@ -15,7 +15,7 @@ from . import config
 
 def input_hash(ids: list[str], texts: list[str], model_revision: str) -> str:
     payload = json.dumps(
-        {"ids": ids, "texts": texts, "model": config.MODEL_ID, "revision": model_revision},
+        {"ids": ids, "texts": texts, "model": config.MODEL_ID, "revision": model_revision, "prefix": config.INPUT_PREFIX},
         ensure_ascii=False,
         separators=(",", ":"),
     )
@@ -35,7 +35,7 @@ def embed(model, texts: list[str]) -> np.ndarray:
     # One text per forward pass: padding inside a mixed-length batch perturbs the
     # float output, which would make a vector depend on its batch neighbors.
     rows = [
-        model.encode([text], batch_size=1, convert_to_numpy=True, normalize_embeddings=False, show_progress_bar=False)[0]
+        model.encode([config.INPUT_PREFIX + text], batch_size=1, convert_to_numpy=True, normalize_embeddings=False, show_progress_bar=False)[0]
         for text in texts
     ]
     return np.asarray(rows, dtype=np.float64)

@@ -23,18 +23,23 @@ EDITORIAL_FILE = SOURCES_DIR / "editorial.v1.yaml"
 
 SCHEMA_VERSION = 1
 ARTIFACT_ID = "swatlas-characters"
-DEFAULT_VERSION = "2026-09-24.1"
+DEFAULT_VERSION = "2026-09-28.1"
 
-MODEL_ID = "sentence-transformers/all-MiniLM-L6-v2"
-# Resolved from the Hugging Face API on 2026-09-24 (lastModified 2026-06-01).
-MODEL_REVISION = "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
-MODEL_LICENSE = "apache-2.0"
+# 2026-09-28: switched from all-MiniLM-L6-v2 (bundle 2026-09-24.1) after a
+# comparison of nine open models on these descriptions; E5-large-v2 separated the
+# story groups best. Older bundles keep their own model in their manifest.
+MODEL_ID = "intfloat/e5-large-v2"
+# Resolved from the Hugging Face API on 2026-09-28 (lastModified 2025-02-17).
+MODEL_REVISION = "f169b11e22de13617baa190a028a32f3493550b6"
+MODEL_LICENSE = "mit"
 MODEL_REUSE_TERMS = (
-    "Apache License 2.0 per the model card. Derived embeddings are redistributed "
-    "with attribution to sentence-transformers/all-MiniLM-L6-v2; the model weights "
+    "MIT License per the model card. Derived embeddings are redistributed "
+    "with attribution to intfloat/e5-large-v2; the model weights "
     "themselves are not redistributed."
 )
-EMBEDDING_DIMENSIONS = 384
+EMBEDDING_DIMENSIONS = 1024
+# E5 expects a role prefix on every input; descriptions are passages, not queries.
+INPUT_PREFIX = "passage: "
 
 MODES = ("authored", "relationships_removed")
 

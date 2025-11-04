@@ -48,7 +48,7 @@ characters:
     roles: [smuggler, pilot]
     eras: [original, sequel]
     force_status: not_sensitive
-    classification_note: "'No Force sensitivity' is stated. Sequel era comes from Kylo Ren's description naming him as a parent. The article's plotting code labels him 'Neutral'."
+    classification_note: "'No Force sensitivity' is stated. Sequel era comes from Kylo Ren's description naming him as a parent. The article's plotting code labels him 'Rebellion' (an earlier version said 'Neutral')."
   leia-organa:
     description_variant: "Princess of Alderaan, leader of the Rebellion, Force sensitive, diplomat and military strategist"
     variant_note: "Removed 'twin sister of Luke'."
@@ -56,7 +56,7 @@ characters:
     roles: [leader, diplomat, mentor]
     eras: [original, sequel]
     force_status: sensitive
-    classification_note: "The article's plotting code labels her 'Jedi', but the description never calls her a Jedi, so the Jedi Order is not assigned. Mentor comes from Rey's 'trained by Luke and Leia'."
+    classification_note: "An earlier version of the article's plotting code labeled her 'Jedi'; the current one says 'Rebellion'. The description never calls her a Jedi, so the Jedi Order is not assigned. Mentor comes from Rey's 'trained by Luke and Leia'."
   emperor-palpatine:
     description_variant: "Sith Master, ruler of the Galactic Empire, manipulator, immense dark side power, orchestrated the Clone Wars"
     variant_note: "Unchanged: the description names no other person."
@@ -88,7 +88,7 @@ characters:
     roles: [bounty-hunter]
     eras: [original]
     force_status: not_sensitive
-    classification_note: "'Mandalorian armor' describes equipment, not creed membership, so Mandalorian is not assigned. The article's plotting code labels him 'Mandalorian'. Era is editorial; the description gives none."
+    classification_note: "'Mandalorian armor' describes equipment, not creed membership, so Mandalorian is not assigned. The article's plotting code labels him 'Bounty hunter' (an earlier version said 'Mandalorian'). Era is editorial; the description gives none."
   ahsoka-tano:
     description_variant: "Former Jedi Padawan, left the Jedi Order, Force sensitive, independent warrior, fought in the Clone Wars"
     variant_note: "Removed 'of Anakin Skywalker' from 'Former Jedi Padawan of Anakin Skywalker'."
@@ -96,7 +96,7 @@ characters:
     roles: [warrior]
     eras: [prequel]
     force_status: sensitive
-    classification_note: "Disputed: the description says she left the Jedi Order and calls her an 'independent warrior', while the article's plotting code labels her 'Jedi'. Neither label is chosen."
+    classification_note: "Disputed: the description says she left the Jedi Order and calls her an 'independent warrior', while an earlier version of the article's plotting code labeled her 'Jedi'; the current one leaves her 'Unaligned'. Neither label is chosen."
   din-djarin:
     description_variant: "Mandalorian bounty hunter, no Force sensitivity, foundling, follows the Mandalorian creed"
     variant_note: "Removed 'protector of Grogu'."
@@ -112,7 +112,7 @@ characters:
     roles: [warrior]
     eras: [sequel]
     force_status: sensitive
-    classification_note: "The description names no organization; 'dark side' is an alignment, not a faction. The article's plotting code labels him 'Sith', which the description does not say."
+    classification_note: "The description names no organization; 'dark side' is an alignment, not a faction. An earlier version of the article's plotting code labeled him 'Sith', which the description does not say; the current one leaves him 'Unaligned'."
   rey:
     description_variant: "Jedi, strong in the Force, scavenger from Jakku"
     variant_note: "Removed 'granddaughter of Palpatine', 'trained by Luke and Leia', 'chose the Skywalker name'."
@@ -144,7 +144,7 @@ characters:
     roles: [warrior, pilot]
     eras: [prequel, original]
     force_status: unknown
-    classification_note: "The description is silent on the Force, so the status is unknown; the article's plotting code groups him with non-Force users. Rebel Alliance is inferred from the Galactic Civil War and his partnership with Han Solo and is not stated."
+    classification_note: "The description is silent on the Force, so the status is unknown; the article counts him among the characters without the Force and labels him 'Rebellion'. Rebel Alliance is inferred from the Galactic Civil War and his partnership with Han Solo and is not stated."
 
 # Curated story relationships among the 15 characters, all directed and quoted
 # from a description. People outside the catalog (Snoke, Grogu, Jango Fett) are

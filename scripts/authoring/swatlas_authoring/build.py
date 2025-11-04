@@ -32,10 +32,10 @@ PACKAGES = ["sentence-transformers", "transformers", "tokenizers", "torch", "num
 PREPARATION_COMMAND = "./scripts/build_bundle.sh"
 LIMITATIONS = [
     "Fifteen hand-written descriptions from one blog article; results describe these texts, not the characters or the franchise.",
-    "One small general-purpose embedding model (all-MiniLM-L6-v2). Other models will rank neighbors differently.",
+    f"One general-purpose embedding model ({config.MODEL_ID.split('/')[-1]}). Other models will rank neighbors differently.",
     "Allegiance, role, era, and Force-status fields are draft editorial classifications, not canon and not embedding axes.",
     "The relationship-removed variant changes several phrases at once; a neighbor change cannot be attributed to a single factor.",
-    "2D projections distort distances. Rankings and scores always use the original 384-dimensional vectors.",
+    f"2D projections distort distances. Rankings and scores always use the original {config.EMBEDDING_DIMENSIONS}-dimensional vectors.",
     "Floating-point results are reproducible within the pinned environment on CPU; identical bits across hardware are not promised.",
 ]
 
@@ -144,7 +144,7 @@ def mode_files(result: dict, version: str) -> dict[str, dict]:
     similarity.update(
         {
             "metric": "cosine",
-            "space": "original-384d-normalized",
+            "space": f"original-{config.EMBEDDING_DIMENSIONS}d-normalized",
             "matrix": [[r(x) for x in row] for row in result["matrix"]],
             "stats": {k: (r(v) if isinstance(v, float) else v) for k, v in result["stats"].items()},
         }
@@ -213,8 +213,8 @@ def claims_file(results: dict[str, dict], version: str) -> dict:
     return {
         "schema_version": config.SCHEMA_VERSION,
         "version": version,
-        "space": "original-384d-normalized",
-        "note": "Automated checks of the article's narrative claims against the shipped scores. Report only; the article is not edited.",
+        "space": f"original-{config.EMBEDDING_DIMENSIONS}d-normalized",
+        "note": "Automated checks of the article's narrative claims against the shipped scores.",
         "claims": [
             {
                 "id": c["id"],
@@ -240,7 +240,7 @@ def readme_text(version: str, src: Sources, results: dict) -> str:
         "",
         "## Files",
         "- characters.csv: descriptions (authored + relationships-removed variant) and draft editorial fields.",
-        "- embeddings_<mode>.csv: L2-normalized 384-d vectors, one row per character id.",
+        f"- embeddings_<mode>.csv: L2-normalized {config.EMBEDDING_DIMENSIONS}-d vectors, one row per character id.",
         "- similarity_<mode>.csv: original-space cosine matrix (rows/columns in id order).",
         "- projections_<mode>.json: PCA and UMAP (seeds 7/21/42) coordinates with full parameters.",
         "- claims.json: article claims checked against the scores.",
@@ -354,7 +354,7 @@ def build(version: str, created_at: str) -> dict:
             "model_reuse_terms": config.MODEL_REUSE_TERMS,
             "portraits": "none included",
         },
-        "model": {"id": config.MODEL_ID, "revision": config.MODEL_REVISION, "dimensions": config.EMBEDDING_DIMENSIONS, "pooling": "mean (model default)"},
+        "model": {"id": config.MODEL_ID, "revision": config.MODEL_REVISION, "dimensions": config.EMBEDDING_DIMENSIONS, "pooling": "mean (model default)", "input_prefix": config.INPUT_PREFIX},
         "modes": {
             mode: {
                 "label": "Authored descriptions" if mode == "authored" else "Named relationship phrases removed",
