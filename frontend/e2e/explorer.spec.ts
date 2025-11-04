@@ -184,3 +184,40 @@ test('works with every non-same-origin request blocked, and makes none', async (
   await expect(page.getByTestId('neighbors').locator('li')).toHaveCount(5);
   expect(external).toEqual([]);
 });
+
+test('dragging a point moves it and its links, without selecting it or changing scores', async ({ page }) => {
+  await openExplorer(page, '?c=luke-skywalker');
+  const before = await neighborIds(page);
+  const svg = page.getByTestId('map-svg');
+  const target = before[0]!;
+  const hit = svg.locator(`g[data-id="${target}"] > circle`).first();
+  const lineEnd = () => svg.locator('line').first().evaluate((l) => [Number(l.getAttribute('x2')), Number(l.getAttribute('y2'))]);
+  await expect(page.getByTestId('reset-layout')).toBeDisabled();
+  // Let the entrance animation come to rest before measuring.
+  const settle = async () => {
+    await expect
+      .poll(async () => {
+        const a = await lineEnd();
+        await page.waitForTimeout(150);
+        const b = await lineEnd();
+        return Math.hypot(a[0]! - b[0]!, a[1]! - b[1]!);
+      })
+      .toBeLessThan(0.01);
+    return lineEnd();
+  };
+  await hit.scrollIntoViewIfNeeded();
+  const start = await settle();
+  const box = (await hit.boundingBox())!;
+  const cx = box.x + box.width / 2;
+  const cy = box.y + box.height / 2;
+  await page.mouse.move(cx, cy);
+  await page.mouse.down();
+  await page.mouse.move(cx + 60, cy + 40, { steps: 8 });
+  await page.mouse.up();
+  await expect.poll(async () => Math.hypot(...(await lineEnd()).map((v, i) => v - start[i]!))).toBeGreaterThan(20);
+  await expect(selectedName(page)).toHaveText('Luke Skywalker');
+  expect(await neighborIds(page)).toEqual(before);
+  await expect(page.getByTestId('reset-layout')).toBeEnabled();
+  await page.getByTestId('reset-layout').click();
+  await expect.poll(async () => Math.hypot(...(await lineEnd()).map((v, i) => v - start[i]!))).toBeLessThan(2);
+});

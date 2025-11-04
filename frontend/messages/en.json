@@ -107,6 +107,8 @@
       "previewSelf": "the selected character",
       "showTable": "Show as table",
       "showChart": "Show as chart",
+      "dragHint": "Drag any point to move it. Linked points follow along. Dragging only rearranges the picture; scores and rankings stay the same.",
+      "resetLayout": "Reset layout",
       "emptyVisible": "Every character is hidden by the filters. Clear a filter to see the chart.",
       "tableCaptionMap": "{projection} coordinates and cosine with {selected}",
       "tableCaptionGraph": "Similarity edges at cosine ≥ {threshold}",

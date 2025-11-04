@@ -107,6 +107,8 @@
       "previewSelf": "el personaje seleccionado",
       "showTable": "Ver como tabla",
       "showChart": "Ver como gráfico",
+      "dragHint": "Arrastra cualquier punto para moverlo. Los puntos enlazados lo siguen. Arrastrar solo reacomoda el dibujo; las puntuaciones y los rankings no cambian.",
+      "resetLayout": "Restablecer posiciones",
       "emptyVisible": "Los filtros ocultan a todos los personajes. Quita un filtro para ver el gráfico.",
       "tableCaptionMap": "Coordenadas {projection} y coseno con {selected}",
       "tableCaptionGraph": "Aristas de similitud con coseno ≥ {threshold}",

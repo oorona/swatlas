@@ -1,8 +1,9 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { Marker } from '@/components/atlas/Marker';
 import { placeLabels, type Point } from '@/lib/atlas/layout';
-import { useMemo } from 'react';
+import { useMemo, type PointerEvent as ReactPointerEvent } from 'react';
 import type { Atlas } from '@/lib/atlas/types';
 import { useExplorer } from './store';
 
@@ -12,51 +13,69 @@ export const CHART_H = 460;
 /**
  * Character marks shared by map and graph. Selection is shown with a thick
  * ring, bold label, and a "selected" tag (not color alone); neighbor ranks are
- * numbered badges. Points are pointer targets; the character list is the
- * keyboard path.
+ * numbered badges. Points are pointer targets and can be dragged; the
+ * character list is the keyboard path. `data-x`/`data-y` carry the projection
+ * position, not wherever the point has been dragged or animated to.
  */
-export function Points({ atlas, points, ids, selected, neighborRank, selectedLabel }: {
+export function Points({ atlas, points, settled, home, ids, selected, neighborRank, selectedLabel, drag }: {
   atlas: Atlas;
   points: Record<string, Point>;
+  /** Where points last came to rest; labels are placed here and ride along while moving. */
+  settled: Record<string, Point>;
+  home: Record<string, Point>;
   ids: string[];
   selected: string;
   neighborRank: Map<string, number>;
   selectedLabel: string;
+  drag: {
+    bind: (id: string) => Record<string, (e: ReactPointerEvent<SVGGElement>) => void>;
+    consumeDrag: () => boolean;
+    dragging: string | null;
+  };
 }) {
   const select = useExplorer((s) => s.select);
   const setHover = useExplorer((s) => s.setHover);
   const hover = useExplorer((s) => s.hover);
   const labels = useMemo(() => {
-    const badges = [...neighborRank.keys()].filter((id) => points[id]).map((id) => ({ x0: points[id]!.x + 2, y0: points[id]!.y - 19, x1: points[id]!.x + 18, y1: points[id]!.y - 3 }));
+    const badges = [...neighborRank.keys()].filter((id) => settled[id]).map((id) => ({ x0: settled[id]!.x + 2, y0: settled[id]!.y - 19, x1: settled[id]!.x + 18, y1: settled[id]!.y - 3 }));
     return placeLabels(
-      points,
+      settled,
       ids.map((id) => ({ id, text: id === selected ? `${atlas.byId.get(id)!.name} (${selectedLabel})` : atlas.byId.get(id)!.name, fontSize: id === selected ? 14 : 12 })),
       CHART_W,
       CHART_H,
       badges,
     );
-  }, [atlas, ids, points, selected, neighborRank, selectedLabel]);
+  }, [atlas, ids, settled, selected, neighborRank, selectedLabel]);
+  // The dragged point paints last so it stays on top of its neighbors.
+  const order = drag.dragging && ids.includes(drag.dragging) ? [...ids.filter((id) => id !== drag.dragging), drag.dragging] : ids;
   return (
     <g>
-      {ids.map((id) => {
+      {order.map((id) => {
         const c = atlas.byId.get(id)!;
         const p = points[id]!;
         const isSel = id === selected;
         const isHover = id === hover && !isSel;
         const rank = neighborRank.get(id);
-        const label = labels[id]!;
+        const at = labels[id]!;
+        const rest = settled[id] ?? p;
+        const label = { ...at, x: at.x + p.x - rest.x, y: at.y + p.y - rest.y };
         return (
           <g
             key={id}
             data-id={id}
-            data-x={p.x.toFixed(2)}
-            data-y={p.y.toFixed(2)}
-            className="cursor-pointer"
-            onClick={() => select(id)}
+            data-x={home[id]!.x.toFixed(2)}
+            data-y={home[id]!.y.toFixed(2)}
+            className={drag.dragging === id ? 'cursor-grabbing' : 'cursor-grab'}
+            style={{ touchAction: 'none' }}
+            {...drag.bind(id)}
+            onClick={() => {
+              if (!drag.consumeDrag()) select(id);
+            }}
             onMouseEnter={() => setHover(id)}
             onMouseLeave={() => setHover(null)}
           >
             <circle cx={p.x} cy={p.y} r={18} fill="transparent" />
+            {drag.dragging === id && <circle cx={p.x} cy={p.y} r={20} fill="var(--foreground)" fillOpacity={0.08} />}
             {isSel && <circle cx={p.x} cy={p.y} r={15} fill="var(--surface)" stroke="var(--foreground)" strokeWidth={3.5} />}
             {isHover && <circle cx={p.x} cy={p.y} r={14} fill="none" stroke="var(--foreground)" strokeWidth={1.5} strokeDasharray="3 3" />}
             <Marker status={c.force_status} x={p.x} y={p.y} size={isSel ? 8 : 7} />
@@ -87,5 +106,23 @@ export function Points({ atlas, points, ids, selected, neighborRank, selectedLab
         );
       })}
     </g>
+  );
+}
+
+export function DragBar({ pinnedCount, onReset }: { pinnedCount: number; onReset: () => void }) {
+  const t = useTranslations('explorer.chart');
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-2 px-1 pb-2 text-xs text-muted">
+      <p>{t('dragHint')}</p>
+      <button
+        type="button"
+        onClick={onReset}
+        disabled={pinnedCount === 0}
+        className="rounded-md border border-border px-2 py-1 text-foreground hover:bg-paper disabled:cursor-not-allowed disabled:opacity-50"
+        data-testid="reset-layout"
+      >
+        {t('resetLayout')}
+      </button>
+    </div>
   );
 }

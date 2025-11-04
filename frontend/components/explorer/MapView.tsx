@@ -5,9 +5,10 @@ import { useMemo } from 'react';
 import { fitCoordinates } from '@/lib/atlas/layout';
 import { rankOf, scoreBetween } from '@/lib/atlas/neighbors';
 import { useDerived, useScore } from './derived';
-import { CHART_H, CHART_W, Points } from './Points';
+import { CHART_H, CHART_W, DragBar, Points } from './Points';
 import { useExplorer } from './store';
 import { projectionLabel } from './labels';
+import { useLiveLayout, type Link } from './useLiveLayout';
 
 export function MapView({ asTable }: { asTable: boolean }) {
   const t = useTranslations('explorer.chart');
@@ -20,6 +21,11 @@ export function MapView({ asTable }: { asTable: boolean }) {
     () => (derived && projection ? fitCoordinates(projection.coordinates_by_id, derived.visibleOrdered.length ? derived.visibleOrdered : derived.atlas.ids, CHART_W, CHART_H, 56) : {}),
     [derived, projection],
   );
+  const links = useMemo<Link[]>(
+    () => (derived?.selected && derived.visible.has(derived.selected) ? derived.neighbors.map((n) => ({ a: derived.selected, b: n.id, strength: 1 })) : []),
+    [derived],
+  );
+  const layout = useLiveLayout(points, links, `${state.mode}|${state.projection}`);
   if (!derived || !projection) return null;
   const { atlas, visibleOrdered, selected, neighbors, neighborRank, visible } = derived;
   const data = atlas.modes[state.mode];
@@ -69,16 +75,20 @@ export function MapView({ asTable }: { asTable: boolean }) {
     );
   }
 
-  const sel = selected ? points[selected] : undefined;
+  const live = layout.points;
+  const sel = selected ? live[selected] : undefined;
   return (
-    <svg role="img" aria-label={summary} viewBox={`0 0 ${CHART_W} ${CHART_H}`} className="h-auto w-full touch-manipulation" data-testid="map-svg" data-projection={state.projection}>
+    <div>
+    <DragBar pinnedCount={layout.pinnedCount} onReset={layout.resetLayout} />
+    <svg ref={layout.svgRef} role="img" aria-label={summary} viewBox={`0 0 ${CHART_W} ${CHART_H}`} className="h-auto w-full touch-manipulation select-none" data-testid="map-svg" data-projection={state.projection}>
       <rect width={CHART_W} height={CHART_H} fill="var(--paper)" />
       {sel &&
         visible.has(selected) &&
         neighbors.map((n) => (
-          <line key={n.id} x1={sel.x} y1={sel.y} x2={points[n.id]!.x} y2={points[n.id]!.y} stroke="var(--edge)" strokeOpacity={0.55} strokeWidth={1.5} strokeDasharray="4 4" />
+          <line key={n.id} x1={sel.x} y1={sel.y} x2={live[n.id]!.x} y2={live[n.id]!.y} stroke="var(--edge)" strokeOpacity={0.55} strokeWidth={1.5} strokeDasharray="4 4" />
         ))}
-      <Points atlas={atlas} points={points} ids={visibleOrdered} selected={selected} neighborRank={neighborRank} selectedLabel={t('selectedBadge')} />
+      <Points atlas={atlas} points={live} settled={layout.settled} home={points} ids={visibleOrdered} selected={selected} neighborRank={neighborRank} selectedLabel={t('selectedBadge')} drag={layout} />
     </svg>
+    </div>
   );
 }

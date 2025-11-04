@@ -6,8 +6,9 @@ import { curatedEdges, pairCount, similarityEdges } from '@/lib/atlas/graph';
 import { fitCoordinates } from '@/lib/atlas/layout';
 import { useDerived, useScore, useThresholdFormat } from './derived';
 import { projectionLabel } from './labels';
-import { CHART_H, CHART_W, Points } from './Points';
+import { CHART_H, CHART_W, DragBar, Points } from './Points';
 import { useExplorer } from './store';
+import { useLiveLayout, type Link } from './useLiveLayout';
 
 function shorten(x1: number, y1: number, x2: number, y2: number, by: number) {
   const dx = x2 - x1;
@@ -35,10 +36,20 @@ export function GraphView({ asTable }: { asTable: boolean }) {
     const data = derived.atlas.modes[state.mode];
     return similarityEdges(data.ids, data.matrix, state.threshold, derived.visible);
   }, [derived, state.mode, state.threshold]);
+  const curated = useMemo(() => (derived && state.curated ? curatedEdges(derived.atlas.relationships, derived.visible) : []), [derived, state.curated]);
+  // Stronger similarity pulls harder; curated story links pull gently.
+  const links = useMemo<Link[]>(() => {
+    const lo = Math.min(...edges.map((e) => e.score), state.threshold);
+    const hi = Math.max(...edges.map((e) => e.score), state.threshold + 1e-6);
+    return [
+      ...edges.map((e) => ({ a: e.a, b: e.b, strength: 0.35 + (0.65 * (e.score - lo)) / (hi - lo || 1) })),
+      ...curated.map((r) => ({ a: r.from, b: r.to, strength: 0.4 })),
+    ];
+  }, [edges, curated, state.threshold]);
+  const layout = useLiveLayout(points, links, `${state.mode}|${state.projection}`);
   if (!derived || !projection) return null;
 
-  const { atlas, visibleOrdered, selected, neighborRank, visible } = derived;
-  const curated = state.curated ? curatedEdges(atlas.relationships, visible) : [];
+  const { atlas, visibleOrdered, selected, neighborRank } = derived;
   const pairs = pairCount(visibleOrdered.length);
   const scores = edges.map((e) => e.score);
   const lo = Math.min(...scores, state.threshold);
@@ -116,10 +127,12 @@ export function GraphView({ asTable }: { asTable: boolean }) {
     selected: selectedName ? t('selectedSuffix', { name: selectedName }) : t('noneSelected'),
   });
 
+  const live = layout.points;
   return (
     <div>
       {header}
-      <svg role="img" aria-label={summary} viewBox={`0 0 ${CHART_W} ${CHART_H}`} className="h-auto w-full touch-manipulation" data-testid="graph-svg" data-projection={state.projection}>
+      <DragBar pinnedCount={layout.pinnedCount} onReset={layout.resetLayout} />
+      <svg ref={layout.svgRef} role="img" aria-label={summary} viewBox={`0 0 ${CHART_W} ${CHART_H}`} className="h-auto w-full touch-manipulation select-none" data-testid="graph-svg" data-projection={state.projection}>
         <defs>
           <marker id="curated-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0 0L10 5L0 10Z" fill="var(--curated)" />
@@ -128,8 +141,8 @@ export function GraphView({ asTable }: { asTable: boolean }) {
         <rect width={CHART_W} height={CHART_H} fill="var(--paper)" />
         <g data-testid="similarity-edges">
           {edges.map((e) => {
-            const a = points[e.a]!;
-            const b = points[e.b]!;
+            const a = live[e.a]!;
+            const b = live[e.b]!;
             const touches = e.a === selected || e.b === selected;
             const w = 0.8 + (3.2 * (e.score - lo)) / (hi - lo || 1);
             return (
@@ -150,7 +163,7 @@ export function GraphView({ asTable }: { asTable: boolean }) {
         </g>
         <g data-testid="curated-edges">
           {curated.map((r) => {
-            const s = shorten(points[r.from]!.x, points[r.from]!.y, points[r.to]!.x, points[r.to]!.y, 14);
+            const s = shorten(live[r.from]!.x, live[r.from]!.y, live[r.to]!.x, live[r.to]!.y, 14);
             return (
               <line key={`${r.from}|${r.type}|${r.to}`} {...s} stroke="var(--curated)" strokeWidth={1.8} strokeDasharray="6 4" markerEnd="url(#curated-arrow)">
                 <title>{`${name(r.from)} → ${tv(r.type)} → ${name(r.to)}`}</title>
@@ -158,7 +171,7 @@ export function GraphView({ asTable }: { asTable: boolean }) {
             );
           })}
         </g>
-        <Points atlas={atlas} points={points} ids={visibleOrdered} selected={selected} neighborRank={neighborRank} selectedLabel={t('selectedBadge')} />
+        <Points atlas={atlas} points={live} settled={layout.settled} home={points} ids={visibleOrdered} selected={selected} neighborRank={neighborRank} selectedLabel={t('selectedBadge')} drag={layout} />
       </svg>
     </div>
   );
