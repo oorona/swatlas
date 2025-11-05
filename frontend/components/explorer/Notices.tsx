@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
+import { DEFAULT_THRESHOLD } from '@/lib/atlas/urlState';
 import { useExplorer } from './store';
 
 export function Notices() {
@@ -42,7 +43,7 @@ export function Notices() {
           <h2 className="font-semibold">{t('issues.heading')}</h2>
           <ul className="mt-1 list-disc pl-5 text-sm">
             {issues.map((issue, i) => (
-              <li key={i}>{t(`issues.${issue.code}`, { field: issue.field })}</li>
+              <li key={i}>{t(`issues.${issue.code}`, { field: issue.field, threshold: DEFAULT_THRESHOLD.toFixed(2) })}</li>
             ))}
           </ul>
           <button type="button" onClick={dismiss} className="mt-2 rounded-md border border-border px-3 py-1 text-sm hover:bg-paper">

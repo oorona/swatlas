@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import { EMPTY_FILTERS, type FilterField } from '@/lib/atlas/filters';
 import type { Mode } from '@/lib/atlas/schema';
 import type { Atlas } from '@/lib/atlas/types';
-import { DEFAULT_STATE, roundThreshold, type AtlasState, type UrlIssue, type View } from '@/lib/atlas/urlState';
+import { DEFAULT_STATE, roundThreshold, type AtlasState, type ColorBy, type UrlIssue, type View } from '@/lib/atlas/urlState';
 
 export type Notice = { kind: 'copied' } | { kind: 'reset' } | { kind: 'copy-fallback'; url: string } | null;
 
@@ -23,6 +23,7 @@ interface ExplorerStore {
   setMode: (mode: Mode) => void;
   setThreshold: (value: number) => void;
   setCurated: (on: boolean) => void;
+  setColorBy: (colorBy: ColorBy) => void;
   toggleFilter: (field: FilterField, value: string) => void;
   clearFilters: () => void;
   reset: () => void;
@@ -45,6 +46,7 @@ export const useExplorer = create<ExplorerStore>((set) => ({
   setMode: (mode) => set((s) => ({ state: { ...s.state, mode } })),
   setThreshold: (value) => set((s) => (Number.isFinite(value) ? { state: { ...s.state, threshold: roundThreshold(value) } } : {})),
   setCurated: (curated) => set((s) => ({ state: { ...s.state, curated } })),
+  setColorBy: (colorBy) => set((s) => ({ state: { ...s.state, colorBy } })),
   toggleFilter: (field, value) =>
     set((s) => {
       const current = s.state.filters[field];

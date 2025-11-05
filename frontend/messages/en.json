@@ -18,17 +18,17 @@
     "primary": "Primary"
   },
   "footer": {
-    "built": "Offline embeddings with all-MiniLM-L6-v2; no model or provider calls in your browser.",
+    "built": "Offline embeddings prepared ahead of time; no model or provider calls in your browser.",
     "article": "Based on the article “Mapping the Star Wars Universe”",
     "fanNote": "An unofficial fan and education project. Star Wars names belong to their owners. No images are used."
   },
   "home": {
     "eyebrow": "Embedding investigation",
     "title": "Why does a model think two Star Wars characters are alike?",
-    "lead": "Fifteen short character descriptions from one blog article, embedded with a small sentence model. Pick a character and look at its nearest neighbors, the scores behind them, and the words that produced them.",
+    "lead": "Fifteen short character descriptions from one blog article, embedded with an open sentence model. Pick a character and look at its nearest neighbors, the scores behind them, and the words that produced them.",
     "cta": "Open the explorer",
     "methodologyCta": "Read the methodology",
-    "previewCaption": "PCA projection of the authored descriptions, drawn from bundle {version}. Positions are 2D approximations. Rankings use the original 384-dimensional cosine scores.",
+    "previewCaption": "PCA projection of the authored descriptions, drawn from bundle {version}. Positions are 2D approximations. Rankings use the original {dims}-dimensional cosine scores.",
     "previewLabel": "Scatter plot of 15 characters in the PCA projection. {selected} is highlighted.",
     "cards": {
       "neighborsTitle": "Neighbors with scores",
@@ -36,7 +36,7 @@
       "variantTitle": "Change the words",
       "variantBody": "Switch to a variant with the named relationship phrases removed, then compare the text diff and the recomputed neighbors.",
       "evidenceTitle": "Check the claims",
-      "evidenceBody": "The article's cluster claims are retested against the shipped scores. Some hold and some do not."
+      "evidenceBody": "Every cluster claim in the article is turned into a test on the shipped scores, with the numbers shown next to it."
     },
     "articleLink": "Read the original article"
   },
@@ -65,9 +65,10 @@
       "invalid-view": "Unknown view; showing the map.",
       "invalid-projection": "Unknown projection; showing PCA.",
       "invalid-mode": "Unknown description mode; showing authored descriptions.",
-      "invalid-threshold": "Threshold must be between -1 and 1 in 0.01 steps; reset to 0.45.",
+      "invalid-threshold": "Threshold must be between -1 and 1 in 0.01 steps; reset to {threshold}.",
       "invalid-filter": "Unknown filter values in “{field}” were removed.",
       "invalid-curated": "The story-relationship toggle value was invalid; it is off.",
+      "invalid-color": "The color option was invalid; colors show factions.",
       "dismiss": "Dismiss"
     },
     "unknownCharacter": {
@@ -83,6 +84,8 @@
       "projection": "Projection",
       "projections": { "pca": "PCA", "umap": "UMAP (seed {seed})" },
       "mode": "Descriptions",
+      "colorBy": "Color by",
+      "colorBys": {"faction": "Faction", "force": "Force status"},
       "modes": { "authored": "Authored", "relationships_removed": "Relationships removed" },
       "copy": "Copy link",
       "copied": "Link copied to the clipboard.",
@@ -109,6 +112,8 @@
       "showChart": "Show as chart",
       "dragHint": "Drag any point to move it. Linked points follow along. Dragging only rearranges the picture; scores and rankings stay the same.",
       "resetLayout": "Reset layout",
+      "factions": {"jedi": "Jedi Order", "sith": "Sith", "rebellion": "Rebellion", "bounty_hunters": "Bounty hunters", "other": "Unknown or disputed"},
+      "legendFaction": "Colors show draft editorial factions; the model never saw these labels, so a mixed-color cluster is a real finding. Shape always shows Force status.",
       "emptyVisible": "Every character is hidden by the filters. Clear a filter to see the chart.",
       "tableCaptionMap": "{projection} coordinates and cosine with {selected}",
       "tableCaptionGraph": "Similarity edges at cosine ≥ {threshold}",
@@ -135,7 +140,7 @@
     },
     "matrix": {
       "label": "Cosine similarity matrix of the visible characters. Use the arrow keys to move and Enter to select the row's character.",
-      "caption": "Cosine similarity, original 384-dimensional space ({mode})",
+      "caption": "Cosine similarity, original {dims}-dimensional space ({mode})",
       "semantic": "Show plain table",
       "heatmap": "Show heatmap grid",
       "cell": "{row} and {col}: {score}",
@@ -231,9 +236,9 @@
     },
     "computation": {
       "heading": "Similarity, neighbors, and graph",
-      "cosine": "Scores are cosine similarity between the original normalized 384-dimensional vectors. An independent NumPy recomputation matches the exported matrix within 1e-6. The matrix is symmetric and its diagonal is 1.",
+      "cosine": "Scores are cosine similarity between the original normalized {dims}-dimensional vectors. An independent NumPy recomputation matches the exported matrix within 1e-6. The matrix is symmetric and its diagonal is 1.",
       "neighbors": "The neighbor list excludes the character itself, sorts by descending score, and breaks ties by id. Filters change which characters are eligible, not the scores.",
-      "graph": "Similarity edges are undirected and include each unordered pair once when cosine ≥ threshold. The default threshold is 0.45. At threshold 1 the graph keeps any pair that truly scores 1, which here is none. Curated story edges are drawn separately and never carry a score."
+      "graph": "Similarity edges are undirected and include each unordered pair once when cosine ≥ threshold. The default threshold is {threshold}. Scores from this model sit in a narrow band ({min} to {max}), so small threshold steps change the graph a lot. At threshold 1 the graph keeps any pair that truly scores 1, which here is none. Curated story edges are drawn separately and never carry a score."
     },
     "projections": {
       "heading": "Projections",
@@ -243,7 +248,7 @@
     },
     "editorial": {
       "heading": "Editorial layer (draft)",
-      "body": "Allegiance, role, era, Force status, the classification notes, the 21 curated story relationships, and the relationship-free variants were drafted from the descriptions' own wording. They are marked draft, are not canon, and are not embedding axes. Where the article's plotting code disagrees with a description (Ahsoka, Kylo Ren, Leia, Boba Fett), the note says so, and Ahsoka's allegiance is marked disputed."
+      "body": "Allegiance, role, era, Force status, the classification notes, the 21 curated story relationships, and the relationship-free variants were drafted from the descriptions' own wording. They are marked draft, are not canon, and are not embedding axes. The article's plotting code now follows the descriptions; where an earlier version disagreed (Ahsoka, Kylo Ren, Leia, Boba Fett), the note records it, and Ahsoka's allegiance is marked disputed. The map's faction colors come from this layer: Jedi Order, Sith, Rebellion, bounty hunters, and gray for unknown or disputed."
     },
     "variant": {
       "heading": "Description variant",
@@ -251,7 +256,7 @@
     },
     "claims": {
       "heading": "Article claims, retested",
-      "body": "Each narrative claim in the article was turned into a concrete test on the shipped scores. Where a claim concerns the 2D picture, it is tested in the original space, and the test text says so. The article is not edited. Contradictions are reported here for editorial review.",
+      "body": "Each narrative claim in the article is turned into a concrete test on the shipped scores. Where a claim concerns the 2D picture, it is tested in the original space, and the test text says so.",
       "claim": "Claim (article, English)",
       "test": "Test",
       "authored": "Authored",

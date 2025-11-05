@@ -18,17 +18,17 @@
     "primary": "Principal"
   },
   "footer": {
-    "built": "Embeddings calculados sin conexión con all-MiniLM-L6-v2; tu navegador no llama a ningún modelo ni proveedor.",
+    "built": "Embeddings calculados de antemano y sin conexión; tu navegador no llama a ningún modelo ni proveedor.",
     "article": "Basado en el artículo “Mapping the Star Wars Universe”",
     "fanNote": "Proyecto no oficial, hecho por afición y con fines educativos. Los nombres de Star Wars pertenecen a sus dueños. No se usan imágenes."
   },
   "home": {
     "eyebrow": "Investigación de embeddings",
     "title": "¿Por qué un modelo cree que dos personajes de Star Wars se parecen?",
-    "lead": "Quince descripciones breves de personajes, tomadas de un artículo de blog y convertidas en embeddings con un modelo de oraciones pequeño. Elige un personaje y revisa sus vecinos más cercanos, las puntuaciones que los respaldan y las palabras que las produjeron.",
+    "lead": "Quince descripciones breves de personajes, tomadas de un artículo de blog y convertidas en embeddings con un modelo abierto de oraciones. Elige un personaje y revisa sus vecinos más cercanos, las puntuaciones detrás de ellos y las palabras que las produjeron.",
     "cta": "Abrir el explorador",
     "methodologyCta": "Leer la metodología",
-    "previewCaption": "Proyección PCA de las descripciones originales, tomada del paquete {version}. Las posiciones son aproximaciones 2D. Los rankings usan la similitud coseno original en 384 dimensiones.",
+    "previewCaption": "Proyección PCA de las descripciones originales, tomada del paquete {version}. Las posiciones son aproximaciones 2D. Los rankings usan la similitud coseno original en {dims} dimensiones.",
     "previewLabel": "Gráfico de dispersión de 15 personajes en la proyección PCA. {selected} aparece resaltado.",
     "cards": {
       "neighborsTitle": "Vecinos con puntuación",
@@ -36,7 +36,7 @@
       "variantTitle": "Cambia las palabras",
       "variantBody": "Cambia a una variante sin las frases de relaciones con nombre y compara la diferencia de texto con los vecinos recalculados.",
       "evidenceTitle": "Verifica las afirmaciones",
-      "evidenceBody": "Las afirmaciones del artículo sobre los grupos se vuelven a probar con las puntuaciones publicadas. Algunas se sostienen y otras no."
+      "evidenceBody": "Cada afirmación del artículo sobre los grupos se convierte en una prueba sobre las puntuaciones publicadas, con los números al lado."
     },
     "articleLink": "Leer el artículo original (en inglés)"
   },
@@ -65,9 +65,10 @@
       "invalid-view": "Vista desconocida; se muestra el mapa.",
       "invalid-projection": "Proyección desconocida; se muestra PCA.",
       "invalid-mode": "Modo de descripción desconocido; se muestran las descripciones originales.",
-      "invalid-threshold": "El umbral debe estar entre -1 y 1 en pasos de 0.01; se restableció a 0.45.",
+      "invalid-threshold": "El umbral debe estar entre -1 y 1 en pasos de 0.01; se restableció a {threshold}.",
       "invalid-filter": "Se quitaron valores de filtro desconocidos en “{field}”.",
       "invalid-curated": "El valor del interruptor de relaciones de la historia no era válido; está apagado.",
+      "invalid-color": "La opción de color no era válida; los colores muestran facciones.",
       "dismiss": "Cerrar"
     },
     "unknownCharacter": {
@@ -83,6 +84,8 @@
       "projection": "Proyección",
       "projections": { "pca": "PCA", "umap": "UMAP (semilla {seed})" },
       "mode": "Descripciones",
+      "colorBy": "Colorear por",
+      "colorBys": {"faction": "Facción", "force": "Estado de la Fuerza"},
       "modes": { "authored": "Originales", "relationships_removed": "Sin relaciones" },
       "copy": "Copiar enlace",
       "copied": "Enlace copiado al portapapeles.",
@@ -109,6 +112,8 @@
       "showChart": "Ver como gráfico",
       "dragHint": "Arrastra cualquier punto para moverlo. Los puntos enlazados lo siguen. Arrastrar solo reacomoda el dibujo; las puntuaciones y los rankings no cambian.",
       "resetLayout": "Restablecer posiciones",
+      "factions": {"jedi": "Orden Jedi", "sith": "Sith", "rebellion": "Rebelión", "bounty_hunters": "Cazarrecompensas", "other": "Desconocido o en disputa"},
+      "legendFaction": "Los colores muestran facciones editoriales en borrador; el modelo nunca vio estas etiquetas, así que un grupo con colores mezclados es un hallazgo real. La forma siempre muestra el estado de la Fuerza.",
       "emptyVisible": "Los filtros ocultan a todos los personajes. Quita un filtro para ver el gráfico.",
       "tableCaptionMap": "Coordenadas {projection} y coseno con {selected}",
       "tableCaptionGraph": "Aristas de similitud con coseno ≥ {threshold}",
@@ -135,7 +140,7 @@
     },
     "matrix": {
       "label": "Matriz de similitud coseno de los personajes visibles. Usa las flechas para moverte y Enter para seleccionar al personaje de la fila.",
-      "caption": "Similitud coseno, espacio original de 384 dimensiones ({mode})",
+      "caption": "Similitud coseno, espacio original de {dims} dimensiones ({mode})",
       "semantic": "Ver tabla simple",
       "heatmap": "Ver mapa de calor",
       "cell": "{row} y {col}: {score}",
@@ -231,9 +236,9 @@
     },
     "computation": {
       "heading": "Similitud, vecinos y grafo",
-      "cosine": "Las puntuaciones son la similitud coseno entre los vectores originales normalizados de 384 dimensiones. Un recálculo independiente con NumPy coincide con la matriz exportada dentro de 1e-6. La matriz es simétrica y su diagonal vale 1.",
+      "cosine": "Las puntuaciones son la similitud coseno entre los vectores originales normalizados de {dims} dimensiones. Un recálculo independiente con NumPy coincide con la matriz exportada dentro de 1e-6. La matriz es simétrica y su diagonal es 1.",
       "neighbors": "La lista de vecinos excluye al propio personaje, ordena por puntuación descendente y desempata por id. Los filtros cambian qué personajes pueden aparecer, no las puntuaciones.",
-      "graph": "Las aristas de similitud no tienen dirección e incluyen cada par no ordenado una sola vez cuando el coseno es ≥ umbral. El umbral predeterminado es 0.45. Con umbral 1 el grafo conserva cualquier par que valga exactamente 1, y aquí no hay ninguno. Las relaciones de la historia se dibujan aparte y nunca tienen puntuación."
+      "graph": "Las aristas de similitud no tienen dirección e incluyen cada par no ordenado una sola vez cuando el coseno es ≥ umbral. El umbral predeterminado es {threshold}. Las puntuaciones de este modelo caen en una franja estrecha ({min} a {max}), así que pasos pequeños del umbral cambian mucho el grafo. Con umbral 1 el grafo conserva cualquier par que realmente valga 1, que aquí no hay. Las aristas curadas de la historia se dibujan aparte y nunca llevan puntuación."
     },
     "projections": {
       "heading": "Proyecciones",
@@ -243,7 +248,7 @@
     },
     "editorial": {
       "heading": "Capa editorial (borrador)",
-      "body": "La lealtad, el rol, la era, la sensibilidad a la Fuerza, las notas de clasificación, las 21 relaciones de la historia y las variantes sin relaciones se redactaron a partir del texto de las propias descripciones. Están marcadas como borrador, no son canon y no son ejes del embedding. Cuando el código de visualización del artículo contradice una descripción (Ahsoka, Kylo Ren, Leia, Boba Fett), la nota lo indica, y la lealtad de Ahsoka figura como en disputa."
+      "body": "La lealtad, el rol, la era, la sensibilidad a la Fuerza, las notas de clasificación, las 21 relaciones de la historia y las variantes sin relaciones se redactaron a partir del texto de las propias descripciones. Están marcadas como borrador, no son canon y no son ejes del embedding. El código de visualización del artículo ahora sigue las descripciones; donde una versión anterior las contradecía (Ahsoka, Kylo Ren, Leia, Boba Fett), la nota lo registra, y la lealtad de Ahsoka figura como en disputa. Los colores de facción del mapa salen de esta capa: Orden Jedi, Sith, Rebelión, cazarrecompensas y gris para desconocido o en disputa."
     },
     "variant": {
       "heading": "Variante de descripción",
@@ -251,7 +256,7 @@
     },
     "claims": {
       "heading": "Afirmaciones del artículo, verificadas de nuevo",
-      "body": "Cada afirmación narrativa del artículo se convirtió en una prueba concreta sobre las puntuaciones publicadas. Cuando una afirmación trata sobre la imagen 2D, se prueba en el espacio original, y el texto de la prueba lo indica. El artículo no se modifica. Las contradicciones se reportan aquí para revisión editorial.",
+      "body": "Cada afirmación narrativa del artículo se convierte en una prueba concreta sobre las puntuaciones publicadas. Cuando una afirmación trata sobre la imagen 2D, se prueba en el espacio original y el texto de la prueba lo indica.",
       "claim": "Afirmación (artículo, en inglés)",
       "test": "Prueba (en inglés)",
       "authored": "Originales",

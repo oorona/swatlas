@@ -18,6 +18,10 @@
   --mark-unknown: #5d6b7a;
   --edge: #577da5;
   --curated: #8a5a2b;
+  --faction-jedi: #2a78d6;
+  --faction-sith: #e34948;
+  --faction-rebellion: #1baf7a;
+  --faction-hunters: #eda100;
   --focus: #b35c00;
   --danger: #9b2c2c;
   --ok: #276749;
@@ -39,6 +43,10 @@
     --mark-unknown: #b3c0cc;
     --edge: #8fb6dd;
     --curated: #e0a868;
+    --faction-jedi: #3987e5;
+    --faction-sith: #ea6070;
+    --faction-rebellion: #199e70;
+    --faction-hunters: #b39000;
     --focus: #ffb454;
     --danger: #f08080;
     --ok: #7fd1a4;

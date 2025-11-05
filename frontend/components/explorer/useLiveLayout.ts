@@ -36,6 +36,7 @@ export function useLiveLayout(home: Record<string, Point>, links: Link[], resetK
   const pins = useRef(new Map<string, Point>());
   const drag = useRef<{ id: string; pointerId: number; start: Point; offset: Point; moved: boolean } | null>(null);
   const justDragged = useRef(false);
+  const detach = useRef<(() => void) | null>(null);
   const frame = useRef(0);
   const [live, setLive] = useState<Record<string, Point>>(() => {
     // First paint: points spread out from the chart center (skipped for reduced motion).
@@ -163,55 +164,69 @@ export function useLiveLayout(home: Record<string, Point>, links: Link[], resetK
     kick();
   }, [resetKey, kick]);
 
-  useEffect(() => () => cancelAnimationFrame(frame.current), []);
+  useEffect(
+    () => () => {
+      cancelAnimationFrame(frame.current);
+      detach.current?.();
+    },
+    [],
+  );
 
-  const toSvg = (e: ReactPointerEvent): Point | null => {
+  const toSvg = (e: { clientX: number; clientY: number }): Point | null => {
     const ctm = svgRef.current?.getScreenCTM();
     if (!ctm) return null;
     const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
     return { x: pt.x, y: pt.y };
   };
 
+  // Move/up are tracked on window, not with pointer capture: the dragged mark is
+  // repainted last (on top), and moving its DOM node would drop a capture.
   const bind = (id: string) => ({
     onPointerDown: (e: ReactPointerEvent<SVGGElement>) => {
-      if (e.button !== 0) return;
+      if (e.button !== 0 || drag.current) return;
       const at = toSvg(e);
       const p = pos.current.get(id) ?? homeRef.current[id];
       if (!at || !p) return;
-      e.currentTarget.setPointerCapture(e.pointerId);
-      drag.current = { id, pointerId: e.pointerId, start: at, offset: { x: p.x - at.x, y: p.y - at.y }, moved: false };
+      const pointerId = e.pointerId;
+      drag.current = { id, pointerId, start: at, offset: { x: p.x - at.x, y: p.y - at.y }, moved: false };
       justDragged.current = false;
       setDragging(id);
-    },
-    onPointerMove: (e: ReactPointerEvent<SVGGElement>) => {
-      const d = drag.current;
-      if (!d || d.id !== id || d.pointerId !== e.pointerId) return;
-      const at = toSvg(e);
-      if (!at) return;
-      if (!d.moved && Math.hypot(at.x - d.start.x, at.y - d.start.y) < CLICK_SLOP) return;
-      d.moved = true;
-      const p = pos.current.get(id) ?? { ...homeRef.current[id]! };
-      p.x = Math.min(CHART_W - 8, Math.max(8, at.x + d.offset.x));
-      p.y = Math.min(CHART_H - 8, Math.max(8, at.y + d.offset.y));
-      pos.current.set(id, p);
-      kick();
-    },
-    onPointerUp: (e: ReactPointerEvent<SVGGElement>) => {
-      const d = drag.current;
-      if (!d || d.pointerId !== e.pointerId) return;
-      drag.current = null;
-      setDragging(null);
-      if (d.moved) {
-        justDragged.current = true;
-        pins.current.set(id, { ...pos.current.get(id)! });
-        setPinnedCount(pins.current.size);
+
+      const onMove = (ev: PointerEvent) => {
+        const d = drag.current;
+        if (!d || ev.pointerId !== pointerId) return;
+        const to = toSvg(ev);
+        if (!to) return;
+        if (!d.moved && Math.hypot(to.x - d.start.x, to.y - d.start.y) < CLICK_SLOP) return;
+        d.moved = true;
+        const q = pos.current.get(id) ?? { ...homeRef.current[id]! };
+        q.x = Math.min(CHART_W - 8, Math.max(8, to.x + d.offset.x));
+        q.y = Math.min(CHART_H - 8, Math.max(8, to.y + d.offset.y));
+        pos.current.set(id, q);
         kick();
-      }
-    },
-    onPointerCancel: () => {
-      drag.current = null;
-      setDragging(null);
-      kick();
+      };
+      const onEnd = (ev: PointerEvent) => {
+        if (ev.pointerId !== pointerId) return;
+        detach.current?.();
+        const d = drag.current;
+        drag.current = null;
+        setDragging(null);
+        if (d?.moved && ev.type === 'pointerup') {
+          justDragged.current = true;
+          pins.current.set(id, { ...pos.current.get(id)! });
+          setPinnedCount(pins.current.size);
+        }
+        kick();
+      };
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onEnd);
+      window.addEventListener('pointercancel', onEnd);
+      detach.current = () => {
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onEnd);
+        window.removeEventListener('pointercancel', onEnd);
+        detach.current = null;
+      };
     },
   });
 

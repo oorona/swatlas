@@ -59,6 +59,8 @@ export default async function MethodologyPage({ params }: { params: Promise<{ lo
   const { atlas, claims } = await getServerBundle();
   const m = atlas.manifest;
   const pca = atlas.modes.authored.projections.find((p) => p.id === 'pca');
+  const offDiagonal = atlas.modes.authored.matrix.flatMap((row, i) => row.filter((_, j) => j !== i));
+  const scoreRange = [Math.min(...offDiagonal).toFixed(2), Math.max(...offDiagonal).toFixed(2)] as const;
   const variance = (pca?.diagnostics.explained_variance_ratio as number[] | undefined) ?? [];
   const pct = (v: number | undefined) => (v === undefined ? '—' : format.number(v, { style: 'percent', maximumFractionDigits: 1 }));
   const kib = (bytes: number) => `${format.number(bytes / 1024, { maximumFractionDigits: 1 })} KiB`;
@@ -119,9 +121,9 @@ export default async function MethodologyPage({ params }: { params: Promise<{ lo
       </Section>
 
       <Section id="computation" title={t('computation.heading')}>
-        <p>{t('computation.cosine')}</p>
+        <p>{t('computation.cosine', { dims: m.model.dimensions })}</p>
         <p>{t('computation.neighbors')}</p>
-        <p>{t('computation.graph')}</p>
+        <p>{t('computation.graph', { threshold: m.computation.default_threshold.toFixed(2), min: scoreRange[0], max: scoreRange[1] })}</p>
         <KeyValue
           rows={[
             ['authored input_hash', m.modes.authored.input_hash],

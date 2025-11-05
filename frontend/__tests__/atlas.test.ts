@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { BundleError, loadAtlas } from '@/lib/atlas/bundle';
 import { safeCell, safeFilename, toCsv } from '@/lib/atlas/csv';
 import { wordDiff } from '@/lib/atlas/diff';
+import { factionOf } from '@/lib/atlas/faction';
 import { EMPTY_FILTERS, visibleIds } from '@/lib/atlas/filters';
 import { pairCount, similarityEdges } from '@/lib/atlas/graph';
 import { nearestNeighbors } from '@/lib/atlas/neighbors';
@@ -110,5 +111,18 @@ describe('bundle loading', () => {
   it('rejects a tampered file by checksum', async () => {
     const fetcher = diskFetcher((url, body) => (url.includes('similarity.authored') ? Buffer.from(body.toString().replace('0.', '0.1')) : body));
     await expect(loadAtlas(null, fetcher)).rejects.toMatchObject({ code: 'checksum-mismatch' });
+  });
+});
+
+describe('faction grouping', () => {
+  it('maps editorial allegiances and roles to display factions, keeping unknown and disputed neutral', () => {
+    const byId = new Map(loadFixtureAtlas().characters.map((c) => [c.id, factionOf(c)]));
+    expect(byId.get('luke-skywalker')).toBe('jedi');
+    expect(byId.get('count-dooku')).toBe('sith');
+    expect(byId.get('chewbacca')).toBe('rebellion');
+    expect(byId.get('boba-fett')).toBe('bounty_hunters');
+    expect(byId.get('din-djarin')).toBe('bounty_hunters');
+    expect(byId.get('ahsoka-tano')).toBe('other');
+    expect(byId.get('kylo-ren')).toBe('other');
   });
 });

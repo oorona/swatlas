@@ -65,7 +65,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
         <figure className="overflow-hidden rounded-xl border border-border bg-surface">
           <PreviewMap atlas={atlas} selected="luke-skywalker" label={t('previewLabel', { selected: 'Luke Skywalker' })} />
-          <figcaption className="border-t border-border px-4 py-3 text-sm text-muted">{t('previewCaption', { version: atlas.version })}</figcaption>
+          <figcaption className="border-t border-border px-4 py-3 text-sm text-muted">{t('previewCaption', { version: atlas.version, dims: atlas.manifest.model.dimensions })}</figcaption>
         </figure>
       </section>
       <section className="mt-8 grid gap-4 md:grid-cols-3">

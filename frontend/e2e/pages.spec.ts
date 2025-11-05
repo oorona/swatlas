@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { bundle } from './helpers';
 
 const PAGES = ['/', '/explore', '/methodology', '/es', '/es/explore', '/es/methodology', '/explore?view=graph&rel=1', '/explore?view=matrix&d=variant', '/es/explore?view=graph&c=kylo-ren'];
 
@@ -38,7 +39,9 @@ test('robots, sitemap, llms.txt, health, and bundle caching', async ({ request }
   expect(robots).not.toMatch(/ClaudeBot|GPTBot/);
   const sitemap = await (await request.get('/sitemap.xml')).text();
   expect(sitemap).toContain('/es/methodology');
-  expect(sitemap).toContain('<lastmod>2026-09-24');
+  const { index: bundleIndex } = bundle();
+  const created = bundleIndex.versions.find((v: { version: string }) => v.version === bundleIndex.default_version).created_at.slice(0, 10);
+  expect(sitemap).toContain(`<lastmod>${created}`);
   expect(await (await request.get('/llms.txt')).text()).toContain('Methodology');
   expect((await request.get('/api/health')).status()).toBe(200);
   const index = await (await request.get('/bundles/index.json')).json();
@@ -51,7 +54,7 @@ test('robots, sitemap, llms.txt, health, and bundle caching', async ({ request }
 
 test('methodology lists claim outcomes and a versioned download', async ({ page }) => {
   await page.goto('/methodology');
-  await expect(page.getByTestId('claims-table').locator('tbody tr')).toHaveCount(10);
+  await expect(page.getByTestId('claims-table').locator('tbody tr')).toHaveCount(14);
   const href = await page.getByTestId('methodology-zip').getAttribute('href');
   expect(href).toMatch(/^\/bundles\/\d{4}-\d{2}-\d{2}\.\d+\/swatlas-[\d.-]+\.[0-9a-f]{12}\.zip$/);
 });

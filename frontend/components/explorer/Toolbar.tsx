@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { toCsv, safeFilename } from '@/lib/atlas/csv';
 import { MODES } from '@/lib/atlas/schema';
-import { serializeState, VIEWS } from '@/lib/atlas/urlState';
+import { COLOR_BYS, serializeState, VIEWS } from '@/lib/atlas/urlState';
 import { useDerived } from './derived';
 import { projectionLabel } from './labels';
 import { useExplorer } from './store';
@@ -19,6 +19,7 @@ export function Toolbar() {
   const setView = useExplorer((s) => s.setView);
   const setProjection = useExplorer((s) => s.setProjection);
   const setMode = useExplorer((s) => s.setMode);
+  const setColorBy = useExplorer((s) => s.setColorBy);
   const reset = useExplorer((s) => s.reset);
   const setNotice = useExplorer((s) => s.setNotice);
   const derived = useDerived();
@@ -93,6 +94,19 @@ export function Toolbar() {
           {MODES.map((mode) => (
             <button key={mode} type="button" aria-pressed={state.mode === mode} onClick={() => setMode(mode)} className={segBtn(state.mode === mode)} data-mode={mode}>
               {t(`modes.${mode}`)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div role="group" aria-labelledby="color-label">
+        <p id="color-label" className="mb-1 text-xs font-medium text-muted">
+          {t('colorBy')}
+        </p>
+        <div className="flex">
+          {COLOR_BYS.map((k) => (
+            <button key={k} type="button" aria-pressed={state.colorBy === k} onClick={() => setColorBy(k)} disabled={state.view === 'matrix'} className={`${segBtn(state.colorBy === k)} disabled:opacity-60`} data-color-by={k}>
+              {t(`colorBys.${k}`)}
             </button>
           ))}
         </div>

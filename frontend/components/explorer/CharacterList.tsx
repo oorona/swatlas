@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { MarkerLegendIcon } from '@/components/atlas/Marker';
+import { FACTION_FILL, factionOf } from '@/lib/atlas/faction';
 import { useDerived, useScore } from './derived';
 import { useExplorer } from './store';
 
@@ -12,6 +13,7 @@ export function CharacterList() {
   const derived = useDerived();
   const select = useExplorer((s) => s.select);
   const setHover = useExplorer((s) => s.setHover);
+  const colorBy = useExplorer((s) => s.state.colorBy);
   const score = useScore();
   const [active, setActive] = useState<string | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -101,7 +103,7 @@ export function CharacterList() {
                 isActive ? 'outline outline-2 outline-offset-[-2px] outline-[var(--focus)]' : '',
               ].join(' ')}
             >
-              <MarkerLegendIcon status={c.force_status} />
+              <MarkerLegendIcon status={c.force_status} fill={colorBy === 'faction' ? FACTION_FILL[factionOf(c)] : undefined} />
               <span className="min-w-0 flex-1 truncate">{c.name}</span>
               {isSelected && <span aria-hidden="true">✓</span>}
               {rank !== undefined && (

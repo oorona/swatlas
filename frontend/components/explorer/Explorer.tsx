@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { BundleError, loadAtlas, type BundleErrorCode } from '@/lib/atlas/bundle';
 import { parseUrlState, serializeState, validateAgainstAtlas, type UrlIssue } from '@/lib/atlas/urlState';
 import { CharacterList } from './CharacterList';
+import { ColorLegend } from './ColorLegend';
 import { DetailsPanel } from './DetailsPanel';
 import { FiltersPanel } from './FiltersPanel';
 import { GraphControls } from './GraphControls';
@@ -135,8 +136,8 @@ function ExplorerReady({ asTable, setAsTable }: { asTable: boolean; setAsTable: 
           {view !== 'matrix' && !asTable && (
             <>
               <HoverPreview />
+              <ColorLegend />
               <ul className="mt-1 space-y-1 px-1 text-xs text-muted">
-                <li>{t('chart.legendShape')}</li>
                 <li>{t('chart.legendNeighbors')}</li>
                 <li>{t('chart.projectionNote')}</li>
               </ul>

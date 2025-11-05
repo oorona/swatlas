@@ -12,7 +12,9 @@ export const MAX_QUERY_LENGTH = 1024;
 export const MAX_FILTER_VALUES = 12;
 export const DEFAULT_CHARACTER = 'luke-skywalker';
 export const DEFAULT_PROJECTION = 'pca';
-export const DEFAULT_THRESHOLD = 0.45;
+export const DEFAULT_THRESHOLD = 0.87;
+export const COLOR_BYS = ['faction', 'force'] as const;
+export type ColorBy = (typeof COLOR_BYS)[number];
 
 export interface AtlasState {
   version: string | null;
@@ -23,9 +25,10 @@ export interface AtlasState {
   threshold: number;
   filters: Filters;
   curated: boolean;
+  colorBy: ColorBy;
 }
 
-export type IssueCode = 'oversized' | 'invalid-version' | 'invalid-character' | 'invalid-view' | 'invalid-projection' | 'invalid-mode' | 'invalid-threshold' | 'invalid-filter' | 'invalid-curated';
+export type IssueCode = 'oversized' | 'invalid-version' | 'invalid-character' | 'invalid-view' | 'invalid-projection' | 'invalid-mode' | 'invalid-threshold' | 'invalid-filter' | 'invalid-curated' | 'invalid-color';
 
 export interface UrlIssue {
   code: IssueCode;
@@ -41,6 +44,7 @@ export const DEFAULT_STATE: AtlasState = {
   threshold: DEFAULT_THRESHOLD,
   filters: EMPTY_FILTERS,
   curated: false,
+  colorBy: 'faction',
 };
 
 const FILTER_PARAMS: Record<FilterField, string> = { allegiances: 'al', roles: 'ro', eras: 'er', force_status: 'fs' };
@@ -120,6 +124,12 @@ export function parseUrlState(search: string): { state: AtlasState; issues: UrlI
     else issues.push({ code: 'invalid-curated', field: 'rel' });
   }
 
+  const k = params.get('k');
+  if (k !== null) {
+    if ((COLOR_BYS as readonly string[]).includes(k)) state.colorBy = k as ColorBy;
+    else issues.push({ code: 'invalid-color', field: 'k' });
+  }
+
   return { state, issues };
 }
 
@@ -169,5 +179,6 @@ export function serializeState(state: AtlasState): string {
     if (state.filters[field].length > 0) params.set(FILTER_PARAMS[field], [...state.filters[field]].sort().join(','));
   }
   if (state.curated) params.set('rel', '1');
+  params.set('k', state.colorBy);
   return params.toString();
 }

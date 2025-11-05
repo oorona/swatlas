@@ -38,7 +38,7 @@ export function MatrixView({ asTable }: { asTable: boolean }) {
   const lo = off.length ? Math.min(...off) : 0;
   const hi = off.length ? Math.max(...off) : 1;
   const name = (id: string) => atlas.byId.get(id)!.name;
-  const caption = t('caption', { mode: tm(mode) });
+  const caption = t('caption', { mode: tm(mode), dims: atlas.manifest.model.dimensions });
   const [fr, fc] = [Math.min(focus[0], ids.length - 1), Math.min(focus[1], ids.length - 1)];
 
   if (ids.length === 0) return null;

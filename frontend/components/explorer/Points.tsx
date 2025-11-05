@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { Marker } from '@/components/atlas/Marker';
+import { FACTION_FILL, factionOf } from '@/lib/atlas/faction';
 import { placeLabels, type Point } from '@/lib/atlas/layout';
 import { useMemo, type PointerEvent as ReactPointerEvent } from 'react';
 import type { Atlas } from '@/lib/atlas/types';
@@ -28,7 +29,7 @@ export function Points({ atlas, points, settled, home, ids, selected, neighborRa
   neighborRank: Map<string, number>;
   selectedLabel: string;
   drag: {
-    bind: (id: string) => Record<string, (e: ReactPointerEvent<SVGGElement>) => void>;
+    bind: (id: string) => { onPointerDown: (e: ReactPointerEvent<SVGGElement>) => void };
     consumeDrag: () => boolean;
     dragging: string | null;
   };
@@ -36,6 +37,7 @@ export function Points({ atlas, points, settled, home, ids, selected, neighborRa
   const select = useExplorer((s) => s.select);
   const setHover = useExplorer((s) => s.setHover);
   const hover = useExplorer((s) => s.hover);
+  const colorBy = useExplorer((s) => s.state.colorBy);
   const labels = useMemo(() => {
     const badges = [...neighborRank.keys()].filter((id) => settled[id]).map((id) => ({ x0: settled[id]!.x + 2, y0: settled[id]!.y - 19, x1: settled[id]!.x + 18, y1: settled[id]!.y - 3 }));
     return placeLabels(
@@ -78,7 +80,7 @@ export function Points({ atlas, points, settled, home, ids, selected, neighborRa
             {drag.dragging === id && <circle cx={p.x} cy={p.y} r={20} fill="var(--foreground)" fillOpacity={0.08} />}
             {isSel && <circle cx={p.x} cy={p.y} r={15} fill="var(--surface)" stroke="var(--foreground)" strokeWidth={3.5} />}
             {isHover && <circle cx={p.x} cy={p.y} r={14} fill="none" stroke="var(--foreground)" strokeWidth={1.5} strokeDasharray="3 3" />}
-            <Marker status={c.force_status} x={p.x} y={p.y} size={isSel ? 8 : 7} />
+            <Marker status={c.force_status} x={p.x} y={p.y} size={isSel ? 8 : 7} fill={colorBy === 'faction' ? FACTION_FILL[factionOf(c)] : undefined} />
             {rank !== undefined && (
               <g aria-hidden="true">
                 <circle cx={p.x + 10} cy={p.y - 11} r={7.5} fill="var(--surface)" stroke="var(--foreground)" strokeWidth={1.2} />

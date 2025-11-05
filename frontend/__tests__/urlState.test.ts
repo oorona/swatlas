@@ -5,25 +5,26 @@ import { loadFixtureAtlas } from './fixtures';
 const atlas = loadFixtureAtlas();
 
 describe('url state', () => {
-  it('defaults to Luke, map, PCA, authored, 0.45', () => {
+  it('defaults to Luke, map, PCA, authored, 0.87, faction colors', () => {
     const { state, issues } = parseUrlState('');
-    expect(state).toMatchObject({ selected: 'luke-skywalker', view: 'map', projection: 'pca', mode: 'authored', threshold: 0.45 });
+    expect(state).toMatchObject({ selected: 'luke-skywalker', view: 'map', projection: 'pca', mode: 'authored', threshold: 0.87, colorBy: 'faction' });
     expect(issues).toEqual([]);
   });
 
   it('round-trips every shareable field', () => {
-    const state = { ...DEFAULT_STATE, version: atlas.version, selected: 'yoda', view: 'graph' as const, projection: 'umap-21', mode: 'relationships_removed' as const, threshold: -0.37, curated: true, filters: { allegiances: ['jedi-order'], roles: [], eras: ['prequel', 'sequel'], force_status: ['sensitive'] } };
+    const state = { ...DEFAULT_STATE, version: atlas.version, selected: 'yoda', view: 'graph' as const, projection: 'umap-21', mode: 'relationships_removed' as const, threshold: -0.37, curated: true, colorBy: 'force' as const, filters: { allegiances: ['jedi-order'], roles: [], eras: ['prequel', 'sequel'], force_status: ['sensitive'] } };
     const parsed = parseUrlState(`?${serializeState(state)}`);
     expect(parsed.issues).toEqual([]);
     expect(parsed.state).toEqual(state);
   });
 
   it('resets invalid fields with explanations', () => {
-    const { state, issues } = parseUrlState('?view=cube&p=tsne&d=x&t=2&rel=yes&v=latest');
+    const { state, issues } = parseUrlState('?view=cube&p=tsne&d=x&t=2&rel=yes&v=latest&k=rainbow');
     expect(state.view).toBe('map');
     expect(state.projection).toBe('pca');
-    expect(state.threshold).toBe(0.45);
-    expect(issues.map((i) => i.code).sort()).toEqual(['invalid-curated', 'invalid-mode', 'invalid-projection', 'invalid-threshold', 'invalid-version', 'invalid-view']);
+    expect(state.threshold).toBe(0.87);
+    expect(state.colorBy).toBe('faction');
+    expect(issues.map((i) => i.code).sort()).toEqual(['invalid-color', 'invalid-curated', 'invalid-mode', 'invalid-projection', 'invalid-threshold', 'invalid-version', 'invalid-view']);
   });
 
   it('rejects oversized state', () => {

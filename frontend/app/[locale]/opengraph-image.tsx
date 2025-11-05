@@ -11,6 +11,7 @@ export const alt = 'Star Wars Semantic Atlas: PCA map of 15 character descriptio
 export default async function OpengraphImage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const { atlas } = await getServerBundle();
+  const model = atlas.manifest.model.id.split('/').pop();
   const data = atlas.modes.authored;
   const pca = data.projections.find((p) => p.id === 'pca')!;
   const pts = fitCoordinates(pca.coordinates_by_id, atlas.ids, 560, 470, 30);
@@ -22,7 +23,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
         <div style={{ display: 'flex', flexDirection: 'column', width: 520, justifyContent: 'center' }}>
           <div style={{ fontSize: 26, color: '#577da5' }}>Star Wars Semantic Atlas</div>
           <div style={{ fontSize: 54, fontWeight: 700, lineHeight: 1.1, marginTop: 16 }}>{title}</div>
-          <div style={{ fontSize: 24, marginTop: 24, color: '#4d5f73' }}>{locale === 'es' ? `15 descripciones · all-MiniLM-L6-v2 · paquete ${atlas.version}` : `15 descriptions · all-MiniLM-L6-v2 · bundle ${atlas.version}`}</div>
+          <div style={{ fontSize: 24, marginTop: 24, color: '#4d5f73' }}>{locale === 'es' ? `15 descripciones · ${model} · paquete ${atlas.version}` : `15 descriptions · ${model} · bundle ${atlas.version}`}</div>
         </div>
         <div style={{ display: 'flex', position: 'relative', width: 560, height: 470, marginTop: 24, background: '#ffffff', borderRadius: 24, border: '3px solid #b8d5e9' }}>
           {atlas.ids.map((id) => {
