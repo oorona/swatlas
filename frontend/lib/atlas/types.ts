@@ -11,6 +11,8 @@ export interface ModeData {
 
 export interface Atlas {
   version: string;
+  /** The index's default (newest recommended) version, for flagging older links. */
+  latestVersion: string;
   manifest: Manifest;
   ids: string[];
   characters: Character[];

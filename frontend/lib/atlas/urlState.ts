@@ -12,6 +12,7 @@ export const MAX_QUERY_LENGTH = 1024;
 export const MAX_FILTER_VALUES = 12;
 export const DEFAULT_CHARACTER = 'luke-skywalker';
 export const DEFAULT_PROJECTION = 'pca';
+/** Fallback only; each bundle's manifest carries its own default (models score on different ranges). */
 export const DEFAULT_THRESHOLD = 0.87;
 export const COLOR_BYS = ['faction', 'force'] as const;
 export type ColorBy = (typeof COLOR_BYS)[number];
@@ -55,10 +56,10 @@ export function roundThreshold(value: number): number {
   return Math.round(Math.min(1, Math.max(-1, value)) * 100) / 100;
 }
 
-export function parseUrlState(search: string): { state: AtlasState; issues: UrlIssue[] } {
+export function parseUrlState(search: string): { state: AtlasState; issues: UrlIssue[]; thresholdFromUrl: boolean } {
   const raw = search.startsWith('?') ? search.slice(1) : search;
   if (raw.length > MAX_QUERY_LENGTH) {
-    return { state: { ...DEFAULT_STATE, filters: { ...EMPTY_FILTERS } }, issues: [{ code: 'oversized', field: '*' }] };
+    return { state: { ...DEFAULT_STATE, filters: { ...EMPTY_FILTERS } }, issues: [{ code: 'oversized', field: '*' }], thresholdFromUrl: false };
   }
   const params = new URLSearchParams(raw);
   const state: AtlasState = { ...DEFAULT_STATE, filters: { allegiances: [], roles: [], eras: [], force_status: [] } };
@@ -101,10 +102,13 @@ export function parseUrlState(search: string): { state: AtlasState; issues: UrlI
   }
 
   const t = params.get('t');
+  let thresholdFromUrl = false;
   if (t !== null) {
     const value = /^-?\d(\.\d{1,2})?$/.test(t) ? Number(t) : Number.NaN;
-    if (Number.isFinite(value) && value >= -1 && value <= 1) state.threshold = roundThreshold(value);
-    else issues.push({ code: 'invalid-threshold', field: 't' });
+    if (Number.isFinite(value) && value >= -1 && value <= 1) {
+      state.threshold = roundThreshold(value);
+      thresholdFromUrl = true;
+    } else issues.push({ code: 'invalid-threshold', field: 't' });
   }
 
   for (const field of FILTER_FIELDS) {
@@ -130,7 +134,7 @@ export function parseUrlState(search: string): { state: AtlasState; issues: UrlI
     else issues.push({ code: 'invalid-color', field: 'k' });
   }
 
-  return { state, issues };
+  return { state, issues, thresholdFromUrl };
 }
 
 export interface ValidatedState {
@@ -141,8 +145,9 @@ export interface ValidatedState {
 }
 
 /** Check parsed state against the loaded bundle's ids, projections, and vocabularies. */
-export function validateAgainstAtlas(input: AtlasState, atlas: Atlas): ValidatedState {
+export function validateAgainstAtlas(input: AtlasState, atlas: Atlas, thresholdFromUrl = true): ValidatedState {
   const state: AtlasState = { ...input, version: atlas.version, filters: { ...input.filters } };
+  if (!thresholdFromUrl) state.threshold = bundleThreshold(atlas);
   const issues: UrlIssue[] = [];
   let unknownCharacter: string | null = null;
 
@@ -165,6 +170,12 @@ export function validateAgainstAtlas(input: AtlasState, atlas: Atlas): Validated
   }
 
   return { state, issues, unknownCharacter };
+}
+
+/** The bundle's own default threshold, falling back to the app default. */
+export function bundleThreshold(atlas: Pick<Atlas, 'manifest'>): number {
+  const value = atlas.manifest.computation?.default_threshold;
+  return typeof value === 'number' && Number.isFinite(value) ? roundThreshold(value) : DEFAULT_THRESHOLD;
 }
 
 export function serializeState(state: AtlasState): string {

@@ -221,3 +221,17 @@ test('dragging a point moves it and its links, without selecting it or changing 
   await page.getByTestId('reset-layout').click();
   await expect.poll(async () => Math.hypot(...(await lineEnd()).map((v, i) => v - start[i]!))).toBeLessThan(2);
 });
+
+test('an older data version uses its own default threshold and says it is older', async ({ page }) => {
+  const { index } = bundle();
+  const older = index.versions.map((v: { version: string }) => v.version).find((v: string) => v !== index.default_version);
+  test.skip(!older, 'only one bundle version shipped');
+  await openExplorer(page, `?v=${older}&view=graph`);
+  await expect(page.getByTestId('older-version')).toBeVisible();
+  const olderManifest = await (await page.request.get(`/bundles/${older}/manifest.json`)).json();
+  await expect(page.getByTestId('threshold-input')).toHaveValue(olderManifest.computation.default_threshold.toFixed(2));
+  expect(Number(await page.getByTestId('edge-count').getAttribute('data-edges'))).toBeGreaterThan(0);
+  await page.getByTestId('older-version').getByRole('link').click();
+  await expect(page.getByTestId('explorer')).toHaveAttribute('data-version', index.default_version);
+  await expect(page.getByTestId('older-version')).toHaveCount(0);
+});

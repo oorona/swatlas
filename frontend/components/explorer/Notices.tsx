@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
-import { DEFAULT_THRESHOLD } from '@/lib/atlas/urlState';
+import { bundleThreshold, DEFAULT_THRESHOLD } from '@/lib/atlas/urlState';
 import { useExplorer } from './store';
 
 export function Notices() {
@@ -22,8 +22,17 @@ export function Notices() {
     }
   }, [notice, setNotice]);
 
+  const older = atlas && atlas.version !== atlas.latestVersion;
   return (
     <div className="space-y-2">
+      {older && (
+        <div role="status" className="rounded-xl border-2 border-[var(--focus)] bg-surface p-4" data-testid="older-version">
+          <p className="text-sm">{t('olderVersion.body', { version: atlas.version, model: atlas.manifest.model.id.split('/').pop() ?? '', latest: atlas.latestVersion })}</p>
+          <a href={window.location.pathname} className="mt-2 inline-block rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-accent-contrast">
+            {t('olderVersion.openLatest', { latest: atlas.latestVersion })}
+          </a>
+        </div>
+      )}
       {unknown && atlas && (
         <div role="alert" className="rounded-xl border-2 border-danger bg-surface p-4" data-testid="unknown-character">
           <h2 className="font-semibold">{t('unknownCharacter.title')}</h2>
@@ -43,7 +52,7 @@ export function Notices() {
           <h2 className="font-semibold">{t('issues.heading')}</h2>
           <ul className="mt-1 list-disc pl-5 text-sm">
             {issues.map((issue, i) => (
-              <li key={i}>{t(`issues.${issue.code}`, { field: issue.field, threshold: DEFAULT_THRESHOLD.toFixed(2) })}</li>
+              <li key={i}>{t(`issues.${issue.code}`, { field: issue.field, threshold: (atlas ? bundleThreshold(atlas) : DEFAULT_THRESHOLD).toFixed(2) })}</li>
             ))}
           </ul>
           <button type="button" onClick={dismiss} className="mt-2 rounded-md border border-border px-3 py-1 text-sm hover:bg-paper">

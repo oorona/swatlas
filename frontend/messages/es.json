@@ -71,6 +71,7 @@
       "invalid-color": "La opción de color no era válida; los colores muestran facciones.",
       "dismiss": "Cerrar"
     },
+    "olderVersion": {"body": "Este enlace abre una versión anterior de los datos ({version}, con embeddings de {model}). Sus puntuaciones usan otro rango, así que los umbrales de la versión más reciente ({latest}) pueden dejar el grafo sin aristas.", "openLatest": "Abrir la versión más reciente ({latest})"},
     "unknownCharacter": {
       "title": "Personaje no encontrado",
       "body": "“{id}” no es un personaje del paquete {version}. No se seleccionó a nadie más en su lugar.",
@@ -133,6 +134,7 @@
       "thresholdHint": "Las aristas unen pares con coseno ≥ umbral (−1 a 1).",
       "edgeCount": "{edges} de {pairs} pares visibles tienen coseno ≥ {threshold}.",
       "noEdges": "Ningún par alcanza este umbral. Es un resultado válido, no un error.",
+      "noEdgesMax": "El par visible más alto vale {max}; baja el umbral por debajo de ese valor para ver aristas.",
       "curated": "Mostrar relaciones de la historia",
       "curatedLegend": "Las flechas discontinuas son relaciones de la historia (editoriales, con dirección y sin puntuación de similitud).",
       "similarityLegend": "Las líneas continuas son aristas de similitud coseno (sin dirección). Más gruesa significa más alta.",

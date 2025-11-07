@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_STATE, MAX_QUERY_LENGTH, parseUrlState, serializeState, validateAgainstAtlas } from '@/lib/atlas/urlState';
+import { bundleThreshold, DEFAULT_STATE, MAX_QUERY_LENGTH, parseUrlState, serializeState, validateAgainstAtlas } from '@/lib/atlas/urlState';
 import { loadFixtureAtlas } from './fixtures';
 
 const atlas = loadFixtureAtlas();
@@ -46,5 +46,16 @@ describe('url state', () => {
     expect(validated.state.projection).toBe('pca');
     expect(validated.state.filters.allegiances).toEqual(['jedi-order']);
     expect(validated.issues.map((i) => i.code)).toEqual(['invalid-projection', 'invalid-filter']);
+  });
+
+  it('takes the default threshold from the bundle unless the URL sets one', () => {
+    const bare = parseUrlState('?view=graph');
+    expect(bare.thresholdFromUrl).toBe(false);
+    const other = { ...atlas, manifest: { ...atlas.manifest, computation: { ...atlas.manifest.computation, default_threshold: 0.45 } } };
+    expect(validateAgainstAtlas(bare.state, other, bare.thresholdFromUrl).state.threshold).toBe(0.45);
+    const pinned = parseUrlState('?t=0.9');
+    expect(pinned.thresholdFromUrl).toBe(true);
+    expect(validateAgainstAtlas(pinned.state, other, pinned.thresholdFromUrl).state.threshold).toBe(0.9);
+    expect(bundleThreshold(atlas)).toBe(atlas.manifest.computation.default_threshold);
   });
 });

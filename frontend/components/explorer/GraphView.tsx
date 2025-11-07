@@ -56,6 +56,8 @@ export function GraphView({ asTable }: { asTable: boolean }) {
   const hi = Math.max(...scores, state.threshold + 1e-6);
   const name = (id: string) => atlas.byId.get(id)!.name;
   const selectedName = selected ? atlas.byId.get(selected)?.name : undefined;
+  const data = atlas.modes[state.mode];
+  const maxScore = Math.max(...visibleOrdered.flatMap((a, i) => visibleOrdered.slice(i + 1).map((b) => data.matrix[data.ids.indexOf(a)]![data.ids.indexOf(b)]!)), -1);
   const countText = tg('edgeCount', { edges: edges.length, pairs, threshold: fmtT(state.threshold) });
 
   const header = (
@@ -65,7 +67,7 @@ export function GraphView({ asTable }: { asTable: boolean }) {
       </p>
       {edges.length === 0 && (
         <p className="font-medium" data-testid="no-edges">
-          {tg('noEdges')}
+          {tg('noEdges')} {tg('noEdgesMax', { max: score(maxScore) })}
         </p>
       )}
       {state.curated && <p className="text-muted">{tg('curatedCount', { count: curated.length })}</p>}

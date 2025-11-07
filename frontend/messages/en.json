@@ -71,6 +71,7 @@
       "invalid-color": "The color option was invalid; colors show factions.",
       "dismiss": "Dismiss"
     },
+    "olderVersion": {"body": "This link opens an older data version ({version}, embedded with {model}). Its scores use a different range, so thresholds from the latest version ({latest}) may show no graph edges.", "openLatest": "Open the latest version ({latest})"},
     "unknownCharacter": {
       "title": "Character not found",
       "body": "“{id}” is not a character in bundle {version}. No other character was selected in its place.",
@@ -133,6 +134,7 @@
       "thresholdHint": "Edges connect pairs with cosine ≥ threshold (−1 to 1).",
       "edgeCount": "{edges} of {pairs} visible pairs have cosine ≥ {threshold}.",
       "noEdges": "No pair meets this threshold. That is a valid result, not an error.",
+      "noEdgesMax": "The highest visible pair scores {max}; lower the threshold below that to see edges.",
       "curated": "Show curated story relationships",
       "curatedLegend": "Dashed arrows are curated story relationships (editorial, directed, no similarity score).",
       "similarityLegend": "Solid lines are cosine similarity edges (undirected). Thicker means higher.",

@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import { EMPTY_FILTERS, type FilterField } from '@/lib/atlas/filters';
 import type { Mode } from '@/lib/atlas/schema';
 import type { Atlas } from '@/lib/atlas/types';
-import { DEFAULT_STATE, roundThreshold, type AtlasState, type ColorBy, type UrlIssue, type View } from '@/lib/atlas/urlState';
+import { bundleThreshold, DEFAULT_STATE, roundThreshold, type AtlasState, type ColorBy, type UrlIssue, type View } from '@/lib/atlas/urlState';
 
 export type Notice = { kind: 'copied' } | { kind: 'reset' } | { kind: 'copy-fallback'; url: string } | null;
 
@@ -56,7 +56,7 @@ export const useExplorer = create<ExplorerStore>((set) => ({
   clearFilters: () => set((s) => ({ state: { ...s.state, filters: { ...EMPTY_FILTERS } } })),
   reset: () =>
     set((s) => ({
-      state: { ...DEFAULT_STATE, filters: { ...EMPTY_FILTERS }, version: s.atlas?.version ?? null },
+      state: { ...DEFAULT_STATE, filters: { ...EMPTY_FILTERS }, version: s.atlas?.version ?? null, threshold: s.atlas ? bundleThreshold(s.atlas) : DEFAULT_STATE.threshold },
       issues: [],
       unknownCharacter: null,
       hover: null,

@@ -39,10 +39,10 @@ export default function Explorer() {
     const controller = new AbortController();
     ready.current = false;
     setLoad({ status: 'loading' });
-    const { state: parsed, issues } = parseUrlState(window.location.search);
+    const { state: parsed, issues, thresholdFromUrl } = parseUrlState(window.location.search);
     loadAtlas(parsed.version, fetch, controller.signal)
       .then((loaded) => {
-        const validated = validateAgainstAtlas(parsed, loaded);
+        const validated = validateAgainstAtlas(parsed, loaded, thresholdFromUrl);
         const merged: UrlIssue[] = [];
         for (const issue of [...issues, ...validated.issues]) {
           if (!merged.some((m) => m.code === issue.code && m.field === issue.field)) merged.push(issue);
