@@ -126,3 +126,13 @@ describe('faction grouping', () => {
     expect(byId.get('kylo-ren')).toBe('other');
   });
 });
+
+describe('default threshold', () => {
+  it("the bundle's own default draws some edges but not every pair", () => {
+    const fixture = loadFixtureAtlas();
+    const data = fixture.modes.authored;
+    const edges = similarityEdges(data.ids, data.matrix, fixture.manifest.computation.default_threshold);
+    expect(edges.length).toBeGreaterThan(0);
+    expect(edges.length).toBeLessThan(pairCount(data.ids.length));
+  });
+});

@@ -55,7 +55,8 @@ UMAP_PARAMS = {
 
 NORM_TOLERANCE = 1e-5
 COSINE_TOLERANCE = 1e-6
-DEFAULT_THRESHOLD = 0.45
+# E5-large-v2 scores sit between ~0.80 and 0.94; 0.87 keeps about the top sixth of pairs.
+DEFAULT_THRESHOLD = 0.87
 MAX_COMPRESSED_BYTES = 500 * 1024
 FLOAT_DIGITS = 8
 

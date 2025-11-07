@@ -87,7 +87,7 @@
     "similarity": "cosine on L2-normalized original vectors",
     "neighbor_order": "descending score, ties broken by ascending id, self excluded",
     "graph_rule": "each unordered pair once when score >= threshold",
-    "default_threshold": 0.45,
+    "default_threshold": 0.87,
     "numeric_tolerance": 1e-06
   },
   "counts": {
@@ -179,17 +179,17 @@
     },
     {
       "key": "similarity.authored",
-      "path": "similarity.authored.150fa0b48bae.json",
-      "sha256": "150fa0b48bae62a111f4f7ff717ca65b36eec1c878278a7ba4cae621ce1b994e",
-      "bytes": 3139,
+      "path": "similarity.authored.ae22bd509801.json",
+      "sha256": "ae22bd5098015c51f62dd12647d2f98786604fd89315c731e2e88c4ce4d2337c",
+      "bytes": 3138,
       "gzip_bytes": 1247
     },
     {
       "key": "similarity.variant",
-      "path": "similarity.variant.1f0e7858cd72.json",
-      "sha256": "1f0e7858cd720610974966d8f123c294d8b15db0e565b9e767e36c39c86c8d71",
-      "bytes": 3139,
-      "gzip_bytes": 1269
+      "path": "similarity.variant.4231163ecba3.json",
+      "sha256": "4231163ecba3d8018698bf6c56bd7e71bce9cba3fcd4d268bd440677f96d708d",
+      "bytes": 3138,
+      "gzip_bytes": 1270
     },
     {
       "key": "vectors.authored",
@@ -207,9 +207,9 @@
     }
   ],
   "download": {
-    "path": "swatlas-2026-09-28.1.75ef16eb9c61.zip",
-    "sha256": "75ef16eb9c6148d9aa6caf61a1a52b89bbb6ad130c4a59fe65dec398b12a71a0",
-    "bytes": 170437
+    "path": "swatlas-2026-09-28.1.4799655a781e.zip",
+    "sha256": "4799655a781ef700c3c74712e252d0aa9b1066c25aa76e6e0c7b5e25ce5347fe",
+    "bytes": 170433
   },
-  "bundle_gzip_bytes": 163781
+  "bundle_gzip_bytes": 163778
 }
