@@ -20,7 +20,7 @@ The public data flow is browser → frontend → reviewed bundle. There is no ba
 ## Common tasks
 
 ```bash
-./scripts/build_bundle.sh                 # rebuild bundle 2026-09-24.1 (reproducible hashes)
+./scripts/build_bundle.sh                 # rebuild bundle 2026-09-28.1 (reproducible hashes)
 ./scripts/build_bundle.sh --version 2026-10-01.1   # publish a new version beside the old one
 ./test.sh all                             # pytest + typecheck + Vitest + build + Playwright
 cd frontend && npm run dev                # local development on :3000

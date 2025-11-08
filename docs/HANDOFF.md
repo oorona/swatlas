@@ -1,4 +1,4 @@
-# swatlas handoff: bundle 2026-09-24.1
+# swatlas handoff: bundle 2026-09-28.1 (sections below describe the original 2026-09-24.1 build unless noted)
 
 This document is the implementation handoff for [SPECIFICATION.md](../SPECIFICATION.md), built to [architecture.md](../architecture.md). Nothing has been deployed.
 
@@ -34,7 +34,7 @@ Bundle 2026-09-28.1 (default):
 - Chosen after comparing nine open models on these descriptions (MiniLM, MPNet, BGE small/base/large, E5 base/large, GTE base, mxbai large). E5-large-v2 had the best group separation (silhouette 0.119 vs 0.102 for MiniLM) and the tightest Jedi Council cluster.
 - E5 scores are compressed (0.80 to 0.94 here), so the default graph threshold moved from 0.45 to 0.87 (17 of 105 pairs).
 
-Bundle 2026-09-24.1 (still loadable with `?v=2026-09-24.1`):
+Retired bundle 2026-09-24.1 (removed from the site on 2026-09-28; recover it from git history if needed):
 - Model: `sentence-transformers/all-MiniLM-L6-v2`
 - Revision: `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`, resolved from the Hugging Face API on 2026-09-24 (repo lastModified 2026-06-01).
 - License: Apache-2.0. Derived embeddings are redistributed with attribution; the weights are not redistributed.

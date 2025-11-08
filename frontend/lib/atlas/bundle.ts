@@ -74,7 +74,7 @@ function assertConsistent(condition: boolean, message: string): asserts conditio
   if (!condition) throw new BundleError('inconsistent', message);
 }
 
-export function assembleAtlas(manifest: Manifest, files: Record<string, unknown>, latestVersion = manifest.version): Atlas {
+export function assembleAtlas(manifest: Manifest, files: Record<string, unknown>): Atlas {
   const version = manifest.version;
   const characters = charactersFileSchema.parse(files.characters);
   const relationships = relationshipsFileSchema.parse(files.relationships);
@@ -103,7 +103,6 @@ export function assembleAtlas(manifest: Manifest, files: Record<string, unknown>
 
   return {
     version,
-    latestVersion,
     manifest,
     ids,
     characters: characters.characters,
@@ -146,7 +145,7 @@ export async function loadAtlas(requestedVersion: string | null, fetcher: Fetche
     }),
   );
   try {
-    return assembleAtlas(manifest, files, index.default_version);
+    return assembleAtlas(manifest, files);
   } catch (error) {
     if (error instanceof BundleError) throw error;
     throw new BundleError('schema-invalid', 'A bundle file failed schema validation');

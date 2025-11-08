@@ -22,17 +22,8 @@ export function Notices() {
     }
   }, [notice, setNotice]);
 
-  const older = atlas && atlas.version !== atlas.latestVersion;
   return (
     <div className="space-y-2">
-      {older && (
-        <div role="status" className="rounded-xl border-2 border-[var(--focus)] bg-surface p-4" data-testid="older-version">
-          <p className="text-sm">{t('olderVersion.body', { version: atlas.version, model: atlas.manifest.model.id.split('/').pop() ?? '', latest: atlas.latestVersion })}</p>
-          <a href={window.location.pathname} className="mt-2 inline-block rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-accent-contrast">
-            {t('olderVersion.openLatest', { latest: atlas.latestVersion })}
-          </a>
-        </div>
-      )}
       {unknown && atlas && (
         <div role="alert" className="rounded-xl border-2 border-danger bg-surface p-4" data-testid="unknown-character">
           <h2 className="font-semibold">{t('unknownCharacter.title')}</h2>

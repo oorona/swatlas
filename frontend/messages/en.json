@@ -71,7 +71,6 @@
       "invalid-color": "The color option was invalid; colors show factions.",
       "dismiss": "Dismiss"
     },
-    "olderVersion": {"body": "This link opens an older data version ({version}, embedded with {model}). Its scores use a different range, so thresholds from the latest version ({latest}) may show no graph edges.", "openLatest": "Open the latest version ({latest})"},
     "unknownCharacter": {
       "title": "Character not found",
       "body": "“{id}” is not a character in bundle {version}. No other character was selected in its place.",
