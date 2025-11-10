@@ -23,13 +23,13 @@ EDITORIAL_FILE = SOURCES_DIR / "editorial.v1.yaml"
 
 SCHEMA_VERSION = 1
 ARTIFACT_ID = "swatlas-characters"
-DEFAULT_VERSION = "2026-09-28.1"
+DEFAULT_VERSION = "2025-11-07.1"
 
-# 2026-09-28: switched from all-MiniLM-L6-v2 after a comparison of nine open
+# 2025-11-04: switched from all-MiniLM-L6-v2 after a comparison of nine open
 # models on these descriptions; E5-large-v2 separated the story groups best.
-# The MiniLM bundle (2026-09-24.1) was retired; git history has it.
+# The first MiniLM bundle was retired; git history has it.
 MODEL_ID = "intfloat/e5-large-v2"
-# Resolved from the Hugging Face API on 2026-09-28 (lastModified 2025-02-17).
+# Resolved from the Hugging Face API on 2025-11-04 (lastModified 2025-02-17).
 MODEL_REVISION = "f169b11e22de13617baa190a028a32f3493550b6"
 MODEL_LICENSE = "mit"
 MODEL_REUSE_TERMS = (

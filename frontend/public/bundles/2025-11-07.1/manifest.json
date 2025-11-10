@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "artifact_id": "swatlas-characters",
-  "version": "2026-09-28.1",
-  "created_at": "2026-09-28T00:00:00Z",
+  "version": "2025-11-07.1",
+  "created_at": "2025-11-07T00:00:00Z",
   "review_status": "draft",
   "editorial": {
     "version": 1,
     "review_status": "draft",
-    "drafted_by": "Claude (implementation agent), 2026-09-24"
+    "drafted_by": "Oswaldo Orona, 2025-10-28"
   },
   "kind": "measured-output",
   "kind_note": "Scores and coordinates are computed by the offline pipeline from the shipped descriptions; editorial fields are hand-authored drafts.",
@@ -23,7 +23,7 @@
     "descriptions_file": "scripts/authoring/sources/article_descriptions.v1.json",
     "descriptions_sha256": "310ea0b59c2eed73e7ef6cd0cd7ebfe0f88bb870929a8db848f38805dd39676f",
     "editorial_file": "scripts/authoring/sources/editorial.v1.yaml",
-    "editorial_sha256": "3b5e7f46db99b0548fcfa3d6b8339700da19342f42d3347e220e7f7d43b0ca55",
+    "editorial_sha256": "3c8ae9b9d58e717eda4e43964ba460cf9960abc422facf8b6a81167906f36943",
     "description_edits": "none; authored descriptions are verbatim from the article"
   },
   "license": {
@@ -132,7 +132,7 @@
       "PYTHONHASHSEED": "0"
     }
   },
-  "preparation_command": "./scripts/build_bundle.sh --version 2026-09-28.1",
+  "preparation_command": "./scripts/build_bundle.sh --version 2025-11-07.1",
   "limitations": [
     "Fifteen hand-written descriptions from one blog article; results describe these texts, not the characters or the franchise.",
     "One general-purpose embedding model (e5-large-v2). Other models will rank neighbors differently.",
@@ -144,72 +144,72 @@
   "files": [
     {
       "key": "characters",
-      "path": "characters.b050a614e4ff.json",
-      "sha256": "b050a614e4ffa81304c788b7ee04c9253a1a78697f310d7f06ab59435bc1f310",
+      "path": "characters.0f1a1148192a.json",
+      "sha256": "0f1a1148192a1d40c2e118ab76f6a64e3db8b3c564caf77e248ec73412bd5d25",
       "bytes": 12380,
-      "gzip_bytes": 2710
+      "gzip_bytes": 2711
     },
     {
       "key": "claims",
-      "path": "claims.68e11a099367.json",
-      "sha256": "68e11a09936780eb069963cc6dd113328acb01c6ad415753647d11c72c4240e1",
+      "path": "claims.78939c4fa9a7.json",
+      "sha256": "78939c4fa9a796041e3be5d0a07789f299584b20405c7c2071841127dee7d516",
       "bytes": 8577,
-      "gzip_bytes": 2407
+      "gzip_bytes": 2406
     },
     {
       "key": "projections.authored",
-      "path": "projections.authored.bd6d0f623ec0.json",
-      "sha256": "bd6d0f623ec0e8984eb71e79e3b5382df044b2c01518e0d1364e3ebe4dbec93b",
+      "path": "projections.authored.451bf9824b3f.json",
+      "sha256": "451bf9824b3ff7b8ed334d988ba73b3486b7569925db17b512f254bf4d47618e",
       "bytes": 4145,
       "gzip_bytes": 1686
     },
     {
       "key": "projections.variant",
-      "path": "projections.variant.11a00f9e2bdf.json",
-      "sha256": "11a00f9e2bdffd8e91560bfacce6dc55002ad4755b1a3b15524d4849487b1f3d",
+      "path": "projections.variant.1aa7badf5c88.json",
+      "sha256": "1aa7badf5c887afae4ed64820163709a5f9855af27a64e491b56437e99eec431",
       "bytes": 4159,
-      "gzip_bytes": 1683
+      "gzip_bytes": 1682
     },
     {
       "key": "relationships",
-      "path": "relationships.cc7bedf27bfb.json",
-      "sha256": "cc7bedf27bfb49dfc6644d072bb58099e51dd777a8af4fdb82ea20b9f6c52e5a",
+      "path": "relationships.8f41b8ddf991.json",
+      "sha256": "8f41b8ddf9917310a9562b7f32a10e2b1dea0d092cc2e61f831da9bdf568d276",
       "bytes": 4727,
       "gzip_bytes": 882
     },
     {
       "key": "similarity.authored",
-      "path": "similarity.authored.ae22bd509801.json",
-      "sha256": "ae22bd5098015c51f62dd12647d2f98786604fd89315c731e2e88c4ce4d2337c",
+      "path": "similarity.authored.1717d4f16541.json",
+      "sha256": "1717d4f16541e822747fb6d32d51f1a38012302de644c9ea60c7115bc2079c85",
       "bytes": 3138,
       "gzip_bytes": 1247
     },
     {
       "key": "similarity.variant",
-      "path": "similarity.variant.4231163ecba3.json",
-      "sha256": "4231163ecba3d8018698bf6c56bd7e71bce9cba3fcd4d268bd440677f96d708d",
+      "path": "similarity.variant.d85a8c1e943a.json",
+      "sha256": "d85a8c1e943ac82330ac04430c77648fabbffe339e604d8a71604aad33a1e512",
       "bytes": 3138,
-      "gzip_bytes": 1270
+      "gzip_bytes": 1271
     },
     {
       "key": "vectors.authored",
-      "path": "vectors.authored.f003df50d97c.json",
-      "sha256": "f003df50d97cf206b1249819e9913352bb5b2c454c7ca8c341113329e9d559d9",
+      "path": "vectors.authored.f1375596487f.json",
+      "sha256": "f1375596487f891ae0e14906bc4f6eb94ea01fd30e0c78cbaf82834b8493318c",
       "bytes": 190984,
-      "gzip_bytes": 74483
+      "gzip_bytes": 74482
     },
     {
       "key": "vectors.variant",
-      "path": "vectors.variant.6a2cac9b95dd.json",
-      "sha256": "6a2cac9b95dde4e0391d91beeb11f22bfeb281d1922ac21ddb30181b325e4fbe",
+      "path": "vectors.variant.abe6a95d0d1d.json",
+      "sha256": "abe6a95d0d1d385f8c6c10611b2790e4f24cf0f1f22e8121f8e7c40de370525a",
       "bytes": 190987,
       "gzip_bytes": 74420
     }
   ],
   "download": {
-    "path": "swatlas-2026-09-28.1.4799655a781e.zip",
-    "sha256": "4799655a781ef700c3c74712e252d0aa9b1066c25aa76e6e0c7b5e25ce5347fe",
-    "bytes": 170433
+    "path": "swatlas-2025-11-07.1.97599354f813.zip",
+    "sha256": "97599354f8135eb50feaf8eaa0a280c53e7de0ff2ae346522fdccac67d2d2f1b",
+    "bytes": 170421
   },
-  "bundle_gzip_bytes": 163778
+  "bundle_gzip_bytes": 163774
 }

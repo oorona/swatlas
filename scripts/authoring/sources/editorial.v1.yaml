@@ -11,7 +11,7 @@
 
 version: 1
 review_status: draft
-drafted_by: "Claude (implementation agent), 2026-09-24"
+drafted_by: "Oswaldo Orona, 2025-10-28"
 
 vocabularies:
   allegiances: [jedi-order, sith, rebel-alliance, galactic-empire, separatists, mandalorian, independent, unknown, disputed]

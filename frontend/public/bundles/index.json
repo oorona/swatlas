@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "artifact_id": "swatlas-characters",
-  "default_version": "2026-09-28.1",
+  "default_version": "2025-11-07.1",
   "versions": [
     {
-      "version": "2026-09-28.1",
-      "created_at": "2026-09-28T00:00:00Z",
-      "manifest": "2026-09-28.1/manifest.json"
+      "version": "2025-11-07.1",
+      "created_at": "2025-11-07T00:00:00Z",
+      "manifest": "2025-11-07.1/manifest.json"
     }
   ]
 }

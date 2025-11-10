@@ -1,7 +1,7 @@
 """Build the versioned swatlas artifact bundle.
 
 Run through scripts/build_bundle.sh, or:
-    uv run python -m swatlas_authoring.build [--version 2026-09-28.1]
+    uv run python -m swatlas_authoring.build [--version 2025-11-07.1]
 
 Outputs frontend/public/bundles/<version>/ (manifest.json + content-hashed files
 + a download zip) and refreshes frontend/public/bundles/index.json.
